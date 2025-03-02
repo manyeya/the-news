@@ -1,7 +1,7 @@
 'use client';
 
-import { useTopHeadlines } from "@/app/services/news/hooks/useNews";
-import type { Article } from "@/app/services/news";
+import { useTopHeadlines } from "@/services/news/hooks/useNews";
+import type { Article } from "@/services/news";
 
 export default function NewsSection() {
   const { data, isLoading, error } = useTopHeadlines({

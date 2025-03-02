@@ -4,9 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { 
   getTopHeadlines, 
   searchNews,
-  type TopHeadlinesParams,
-  type SearchNewsParams 
 } from '..';
+
+import type { TopHeadlinesParams, SearchNewsParams } from '../types';
 
 export function useTopHeadlines(params?: TopHeadlinesParams) {
   return useQuery({
