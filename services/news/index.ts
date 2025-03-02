@@ -5,8 +5,6 @@ import { TopHeadlinesParams, NewsResponse, SearchNewsParams, Article } from "./t
 const NEWS_API_BASE_URL = 'https://newsapi.org/v2';
 const NEWS_API_KEY = process.env.NEWS_API_KEY; 
 
-
-
 export async function getTopHeadlines(params?: TopHeadlinesParams): Promise<NewsResponse> {
   const searchParams = new URLSearchParams();
   if (params?.country) searchParams.append('country', params.country);
