@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { getTopHeadlines, searchNews } from '..';
 import type { TopHeadlinesParams, SearchNewsParams, NewsResponse } from '../types';
 
@@ -14,49 +14,52 @@ interface UseNewsResult {
   isError: boolean;
 }
 
-const processQueryResult = (result: ReturnType<typeof useQuery<NewsResponse, Error>>): UseNewsResult => {
+// Common query configuration for news API requests
+const createNewsQueryConfig = (
+  queryKey: unknown[],
+  queryFn: () => Promise<NewsResponse>,
+  options?: Partial<UseQueryOptions<NewsResponse, Error>>
+): UseQueryOptions<NewsResponse, Error> => ({
+  queryKey,
+  queryFn,
+  staleTime: STALE_TIME,
+  gcTime: CACHE_TIME,
+  retry: (failureCount: number, error: Error) => {
+    if (error.message.includes('429')) {
+      return false; // Don't retry on rate limit
+    }
+    return failureCount < 3;
+  },
+  retryDelay: RETRY_DELAY,
+  ...options,
+});
+
+export function useTopHeadlines(params?: TopHeadlinesParams): UseNewsResult {
+  const result = useQuery<NewsResponse, Error>(
+    createNewsQueryConfig(['topHeadlines', params], () => getTopHeadlines(params))
+  );
+
   return {
     data: result.data,
     isLoading: result.isLoading,
-    isError: result.isError,
+    isError: result.isError
   };
-};
-
-export function useTopHeadlines(params?: TopHeadlinesParams): UseNewsResult {
-  const result = useQuery<NewsResponse, Error>({
-    queryKey: ['topHeadlines', params],
-    queryFn: () => getTopHeadlines(params),
-    staleTime: STALE_TIME,
-    gcTime: CACHE_TIME,
-    retry: (failureCount, error) => {
-      if (error.message.includes('429')) {
-        return false;
-      }
-      return failureCount < 3;
-    },
-    retryDelay: RETRY_DELAY,
-  });
-
-  return processQueryResult(result);
 }
 
 export function useSearchNews(params: SearchNewsParams): UseNewsResult {
-  const result = useQuery<NewsResponse, Error>({
-    queryKey: ['searchNews', params],
-    queryFn: () => searchNews(params),
-    staleTime: STALE_TIME,
-    gcTime: CACHE_TIME,
-    enabled: !!params.query,
-    retry: (failureCount, error) => {
-      if (error.message.includes('429')) {
-        return false;
-      }
-      return failureCount < 3;
-    },
-    retryDelay: RETRY_DELAY,
-  });
+  const result = useQuery<NewsResponse, Error>(
+    createNewsQueryConfig(
+      ['searchNews', params],
+      () => searchNews(params),
+      { enabled: !!params.query }
+    )
+  );
 
-  return processQueryResult(result);
+  return {
+    data: result.data,
+    isLoading: result.isLoading,
+    isError: result.isError
+  };
 }
 
 export function useEntertainmentNews(params?: Omit<TopHeadlinesParams, 'category'>): UseNewsResult {
