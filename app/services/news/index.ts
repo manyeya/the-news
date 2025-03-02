@@ -1,5 +1,7 @@
+'use server';
+
 const NEWS_API_BASE_URL = 'https://newsapi.org/v2';
-const NEWS_API_KEY = process.env.NEXT_PUBLIC_NEWS_API_KEY;
+const NEWS_API_KEY = process.env.NEWS_API_KEY; 
 
 interface Article {
   source: {
@@ -21,13 +23,24 @@ interface NewsResponse {
   articles: Article[];
 }
 
-export async function getTopHeadlines(params?: {
+export type TopHeadlinesParams = {
   country?: string;
   category?: string;
   query?: string;
   pageSize?: number;
   page?: number;
-}): Promise<NewsResponse> {
+};
+
+export type SearchNewsParams = {
+  query: string;
+  from?: string;
+  to?: string;
+  sortBy?: 'relevancy' | 'popularity' | 'publishedAt';
+  pageSize?: number;
+  page?: number;
+};
+
+export async function getTopHeadlines(params?: TopHeadlinesParams): Promise<NewsResponse> {
   const searchParams = new URLSearchParams();
   if (params?.country) searchParams.append('country', params.country);
   if (params?.category) searchParams.append('category', params.category);
@@ -52,14 +65,7 @@ export async function getTopHeadlines(params?: {
   return response.json();
 }
 
-export async function searchNews(params: {
-  query: string;
-  from?: string;
-  to?: string;
-  sortBy?: 'relevancy' | 'popularity' | 'publishedAt';
-  pageSize?: number;
-  page?: number;
-}): Promise<NewsResponse> {
+export async function searchNews(params: SearchNewsParams): Promise<NewsResponse> {
   const searchParams = new URLSearchParams();
   searchParams.append('q', params.query);
   if (params.from) searchParams.append('from', params.from);
@@ -84,3 +90,5 @@ export async function searchNews(params: {
 
   return response.json();
 }
+
+export type { Article, NewsResponse };
