@@ -8,7 +8,7 @@ const STALE_TIME = 5 * 60 * 1000; // 5 minutes
 const CACHE_TIME = 30 * 60 * 1000; // 30 minutes
 const RETRY_DELAY = (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000);
 
-interface UseNewsResult {
+interface NewsResult {
   data: NewsResponse | undefined;
   isLoading: boolean;
   isError: boolean;
@@ -34,7 +34,7 @@ const createNewsQueryConfig = (
   ...options,
 });
 
-export function useTopHeadlines(params?: TopHeadlinesParams): UseNewsResult {
+export function useTopHeadlines(params?: TopHeadlinesParams): NewsResult {
   const result = useQuery<NewsResponse, Error>(
     createNewsQueryConfig(['topHeadlines', params], () => getTopHeadlines(params))
   );
@@ -46,7 +46,7 @@ export function useTopHeadlines(params?: TopHeadlinesParams): UseNewsResult {
   };
 }
 
-export function useSearchNews(params: SearchNewsParams): UseNewsResult {
+export function useSearchNews(params: SearchNewsParams): NewsResult {
   const result = useQuery<NewsResponse, Error>(
     createNewsQueryConfig(
       ['searchNews', params],
@@ -62,25 +62,25 @@ export function useSearchNews(params: SearchNewsParams): UseNewsResult {
   };
 }
 
-export function useEntertainmentNews(params?: Omit<TopHeadlinesParams, 'category'>): UseNewsResult {
-  return useTopHeadlines({ ...params, category: 'entertainment' });
+export function useEntertainmentNews(params?: Omit<TopHeadlinesParams, 'category'>): NewsResult {
+  return useTopHeadlines({ ...params, category: 'Entertainment' });
 }
 
-export function useWorldNews(params?: Omit<TopHeadlinesParams, 'category'>): UseNewsResult {
-  return useTopHeadlines({ ...params, category: 'world' });
+export function useWorldNews(params?: Omit<TopHeadlinesParams, 'category'>): NewsResult {
+  return useTopHeadlines({ ...params, category: 'General' });
 }
 
-export function useMostPopular(params?: Partial<SearchNewsParams>): UseNewsResult {
+export function useMostPopular(params?: Partial<SearchNewsParams>): NewsResult {
   return useSearchNews({
-    query: params?.query || 'news',
+    query: params?.query || 'south africa',
     sortBy: 'popularity',
     ...params,
   });
 }
 
-export function useFeaturedStories(params?: TopHeadlinesParams): UseNewsResult {
+export function useFeaturedStories(params?: TopHeadlinesParams): NewsResult {
   return useTopHeadlines({
     ...params,
-    pageSize: 5, // Limit to 5 featured stories
+    pageSize: 5,
   });
 }

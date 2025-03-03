@@ -1,3 +1,13 @@
+export enum NewsCategory {
+  Business = 'business',
+  Entertainment = 'entertainment',
+  General = 'general',
+  Health = 'health',
+  Science = 'science',
+  Sports = 'sports',
+  Technology = 'technology',
+}
+
 export interface Article {
   source: {
     id: string | null;
@@ -20,7 +30,7 @@ export interface NewsResponse {
 
 export type TopHeadlinesParams = {
   country?: string;
-  category?: string;
+  category?: keyof typeof NewsCategory;
   query?: string;
   pageSize?: number;
   page?: number;
