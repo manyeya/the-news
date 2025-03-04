@@ -171,16 +171,17 @@ export async function getVideoNews(params: VideoNewsParams = {}): Promise<VideoN
     ) as Array<keyof typeof NEWS_SOURCES>;
 
     // Fetch videos from all relevant sources in parallel with timeout
-    const fetchPromises = relevantSources.map(source => {
-      return Promise.race([
-        fetchSourceVideos(source, limit),
-        new Promise<VideoNews[]>((_, reject) => 
-          setTimeout(() => reject(new Error(`Timeout fetching ${source}`)), 10000)
-        )
-      ]).catch(error => {
+    const fetchPromises = relevantSources.map(async source => {
+      try {
+        return await Promise.race([
+          fetchSourceVideos(source, limit),
+          new Promise<VideoNews[]>((_, reject) => setTimeout(() => reject(new Error(`Timeout fetching ${source}`)), 10000)
+          )
+        ]);
+      } catch (error) {
         console.error(`Failed to fetch videos from ${source}:`, error);
         return [] as VideoNews[];
-      });
+      }
     });
 
     const allVideos = await Promise.all(fetchPromises);
