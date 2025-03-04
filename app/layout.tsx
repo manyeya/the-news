@@ -34,6 +34,7 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: false,
   },
+  manifest: '/manifest.json',
   openGraph: {
     type: "website",
     siteName: APP_NAME,
@@ -69,6 +70,7 @@ export default function RootLayout({
       >
         <ClientProviders>
           {children}
+          <div id="offline-indicator" />
         </ClientProviders>
       </body>
     </html>

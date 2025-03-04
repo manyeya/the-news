@@ -50,3 +50,4 @@ package-lock.json
 
 public/sw*
 public/swe-worker*
+certificates

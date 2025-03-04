@@ -4,25 +4,29 @@ import {
   Authenticated,
   Unauthenticated,
 } from "convex/react";
-
-import { SignUpButton } from "@clerk/nextjs";
-import { SignInButton } from "@clerk/nextjs";
-import { UserButton } from "@clerk/nextjs";
-import NewsSection from "./components/NewsSection";
+import { SignUpButton, SignInButton, UserButton } from "@clerk/nextjs";
+import VideoSection from "@/components/video/VideoSection";
+import TopStories from "@/components/TopStories";
 
 export default function Home() {
   return (
     <>
-      <header className="sticky top-0 z-10 bg-background p-4 border-b-2 border-slate-200 dark:border-slate-800 flex flex-row justify-between items-center">
-        Convex + Next.js + Clerk
-        <UserButton />
+      <header className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-blue-600">The News</h1>
+          <UserButton />
+        </div>
       </header>
-      <main className="p-8 flex flex-col gap-8">
-        <h1 className="text-4xl font-bold text-center">
-          Convex + Next.js + Clerk
-        </h1>
+      
+      <main className="max-w-7xl mx-auto px-4 py-8">
         <Authenticated>
-          <NewsSection />
+          <div className="space-y-12">
+            <TopStories />
+            <div className="space-y-4">
+              <h2 className="text-2xl font-bold">News Videos</h2>
+              <VideoSection />
+            </div>
+          </div>
         </Authenticated>
         <Unauthenticated>
           <SignInForm />
@@ -34,18 +38,25 @@ export default function Home() {
 
 function SignInForm() {
   return (
-    <div className="flex flex-col gap-8 w-96 mx-auto">
-      <p>Log in to see the numbers</p>
-      <SignInButton mode="modal">
-        <button className="bg-foreground text-background px-4 py-2 rounded-md">
-          Sign in
-        </button>
-      </SignInButton>
-      <SignUpButton mode="modal">
-        <button className="bg-foreground text-background px-4 py-2 rounded-md">
-          Sign up
-        </button>
-      </SignUpButton>
+    <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8">
+      <div className="text-center space-y-4">
+        <h2 className="text-3xl font-bold">Welcome to The News</h2>
+        <p className="text-gray-600">Sign in to access the latest news and updates</p>
+      </div>
+      
+      <div className="flex flex-col gap-4 w-full max-w-sm">
+        <SignInButton mode="modal">
+          <button className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+            Sign in
+          </button>
+        </SignInButton>
+        
+        <SignUpButton mode="modal">
+          <button className="w-full bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition-colors">
+            Create account
+          </button>
+        </SignUpButton>
+      </div>
     </div>
   );
 }
