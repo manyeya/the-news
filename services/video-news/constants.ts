@@ -10,7 +10,12 @@ export const NEWS_SOURCES = {
   CNBC: "https://www.youtube.com/feeds/videos.xml?channel_id=UCvJJ_dzjViJCoLf5uKUTwoA",
   // Sports
   ESPN: "https://www.youtube.com/feeds/videos.xml?channel_id=UCiWLfSweyRNmLpgEHekhoAg",
-  SKY_SPORTS: "https://www.youtube.com/feeds/videos.xml?channel_id=UCNAf1k0yIjyGu3k9BwAg3lg"
+  SKY_SPORTS: "https://www.youtube.com/feeds/videos.xml?channel_id=UCNAf1k0yIjyGu3k9BwAg3lg",
+  // South African News
+  SABC_NEWS: "https://www.youtube.com/feeds/videos.xml?channel_id=UC8yH-uI81UUtEMDsowQyx1g",
+  ENCA: "https://www.youtube.com/feeds/videos.xml?channel_id=UCI3RT5PGmdi1KVp9FG_CneA",
+  NEWS24: "https://www.youtube.com/feeds/videos.xml?channel_id=UC_vRepQuzI527GtEP1pGYZw",
+  NEWSROOM_AFRIKA: "https://www.youtube.com/feeds/videos.xml?channel_id=UCQMML3hAsx-Mz9j9ZN0tThQ"
 } as const;
 
 export const CATEGORIES = {
@@ -18,7 +23,8 @@ export const CATEGORIES = {
   INTERNATIONAL: 'INTERNATIONAL',
   TECHNOLOGY: 'TECHNOLOGY',
   BUSINESS: 'BUSINESS',
-  SPORTS: 'SPORTS'
+  SPORTS: 'SPORTS',
+  SOUTH_AFRICA: 'SOUTH_AFRICA'
 } as const;
 
 // Source to category mapping
@@ -30,5 +36,10 @@ export const SOURCE_CATEGORIES = {
   BLOOMBERG: CATEGORIES.BUSINESS,
   CNBC: CATEGORIES.BUSINESS,
   ESPN: CATEGORIES.SPORTS,
-  SKY_SPORTS: CATEGORIES.SPORTS
+  SKY_SPORTS: CATEGORIES.SPORTS,
+  // South African News
+  SABC_NEWS: CATEGORIES.SOUTH_AFRICA,
+  ENCA: CATEGORIES.SOUTH_AFRICA,
+  NEWS24: CATEGORIES.SOUTH_AFRICA,
+  NEWSROOM_AFRIKA: CATEGORIES.SOUTH_AFRICA
 } as const;
