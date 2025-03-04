@@ -4,7 +4,7 @@ export const NEWS_SOURCES = {
   AP: "https://www.youtube.com/feeds/videos.xml?channel_id=UC52X5wxOL_s5yw0dQk7NtgA",
   // Technology
   CNET: "https://www.youtube.com/feeds/videos.xml?channel_id=UCOmcA3f_RrH6b9NmcNa4tdg",
-  // TECH_RADAR: "https://www.youtube.com/feeds/videos.xml?channel_id=UCqQn9LUvqNAr6Iu1PSKxGzw",
+  TECH_RADAR: "https://www.youtube.com/feeds/videos.xml?channel_id=UCAY_M9HyJb8oMKPV1utQQyA",
   // Business
   BLOOMBERG: "https://www.youtube.com/feeds/videos.xml?channel_id=UCUMZ7gohGI9HcU9VNsr2FJQ",
   CNBC: "https://www.youtube.com/feeds/videos.xml?channel_id=UCvJJ_dzjViJCoLf5uKUTwoA",
@@ -24,7 +24,7 @@ export const CATEGORIES = {
   TECHNOLOGY: 'TECHNOLOGY',
   BUSINESS: 'BUSINESS',
   SPORTS: 'SPORTS',
-  SOUTH_AFRICA: 'SOUTH_AFRICA'
+  SOUTH_AFRICAN: 'SOUTH_AFRICAN'
 } as const;
 
 // Source to category mapping
@@ -32,14 +32,13 @@ export const SOURCE_CATEGORIES = {
   REUTERS: CATEGORIES.INTERNATIONAL,
   AP: CATEGORIES.INTERNATIONAL,
   CNET: CATEGORIES.TECHNOLOGY,
-  // TECH_RADAR: CATEGORIES.TECHNOLOGY,
+  TECH_RADAR: CATEGORIES.TECHNOLOGY,
   BLOOMBERG: CATEGORIES.BUSINESS,
   CNBC: CATEGORIES.BUSINESS,
   ESPN: CATEGORIES.SPORTS,
   SKY_SPORTS: CATEGORIES.SPORTS,
-  // South African News
-  SABC_NEWS: CATEGORIES.SOUTH_AFRICA,
-  ENCA: CATEGORIES.SOUTH_AFRICA,
-  NEWS24: CATEGORIES.SOUTH_AFRICA,
-  NEWSROOM_AFRIKA: CATEGORIES.SOUTH_AFRICA
+  SABC_NEWS: CATEGORIES.SOUTH_AFRICAN,
+  ENCA: CATEGORIES.SOUTH_AFRICAN,
+  NEWS24: CATEGORIES.SOUTH_AFRICAN,
+  NEWSROOM_AFRIKA: CATEGORIES.SOUTH_AFRICAN
 } as const;
