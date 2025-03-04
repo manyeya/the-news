@@ -1,21 +1,23 @@
+const Feed = (channelId: string) => `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+
 export const NEWS_SOURCES = {
   // International News
-  REUTERS: "https://www.youtube.com/feeds/videos.xml?channel_id=UChqUTb7kYRX8-EiaN3XFrSQ",
-  AP: "https://www.youtube.com/feeds/videos.xml?channel_id=UC52X5wxOL_s5yw0dQk7NtgA",
+  REUTERS: Feed("UChqUTb7kYRX8-EiaN3XFrSQ"),
+  AP: Feed("UC52X5wxOL_s5yw0dQk7NtgA"),
   // Technology
-  CNET: "https://www.youtube.com/feeds/videos.xml?channel_id=UCOmcA3f_RrH6b9NmcNa4tdg",
-  TECH_RADAR: "https://www.youtube.com/feeds/videos.xml?channel_id=UCAY_M9HyJb8oMKPV1utQQyA",
+  CNET: Feed("UCOmcA3f_RrH6b9NmcNa4tdg"),
+  TECH_RADAR: Feed("UCAY_M9HyJb8oMKPV1utQQyA"),
   // Business
-  BLOOMBERG: "https://www.youtube.com/feeds/videos.xml?channel_id=UCUMZ7gohGI9HcU9VNsr2FJQ",
-  CNBC: "https://www.youtube.com/feeds/videos.xml?channel_id=UCvJJ_dzjViJCoLf5uKUTwoA",
+  BLOOMBERG: Feed("UCUMZ7gohGI9HcU9VNsr2FJQ"),
+  CNBC: Feed("UCvJJ_dzjViJCoLf5uKUTwoA"),
   // Sports
-  ESPN: "https://www.youtube.com/feeds/videos.xml?channel_id=UCiWLfSweyRNmLpgEHekhoAg",
-  SKY_SPORTS: "https://www.youtube.com/feeds/videos.xml?channel_id=UCNAf1k0yIjyGu3k9BwAg3lg",
+  ESPN: Feed("UCiWLfSweyRNmLpgEHekhoAg"),
+  SKY_SPORTS: Feed("UCNAf1k0yIjyGu3k9BwAg3lg"),
   // South African News
-  SABC_NEWS: "https://www.youtube.com/feeds/videos.xml?channel_id=UC8yH-uI81UUtEMDsowQyx1g",
-  ENCA: "https://www.youtube.com/feeds/videos.xml?channel_id=UCI3RT5PGmdi1KVp9FG_CneA",
-  NEWS24: "https://www.youtube.com/feeds/videos.xml?channel_id=UC_vRepQuzI527GtEP1pGYZw",
-  NEWSROOM_AFRIKA: "https://www.youtube.com/feeds/videos.xml?channel_id=UCQMML3hAsx-Mz9j9ZN0tThQ"
+  SABC_NEWS: Feed("UC8yH-uI81UUtEMDsowQyx1g"),
+  ENCA: Feed("UCI3RT5PGmdi1KVp9FG_CneA"),
+  NEWS24: Feed("UC_vRepQuzI527GtEP1pGYZw"),
+  NEWSROOM_AFRIKA: Feed("UCQMML3hAsx-Mz9j9ZN0tThQ")
 } as const;
 
 export const CATEGORIES = {
