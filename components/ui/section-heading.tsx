@@ -7,9 +7,9 @@ const sectionHeadingVariants = cva(
   {
     variants: {
       variant: {
-        yellow: "bg-[#FFD700] text-gray-900",
-        gray: "bg-gray-100 text-gray-900",
-        blue: "bg-[#E8F4F9] text-gray-900",
+        yellow: "bg-brand-yellow",
+        gray: "bg-brand-light",
+        blue: "bg-brand-blue",
       }
     },
     defaultVariants: {
@@ -32,7 +32,7 @@ export function SectionHeading({
   className
 }: SectionHeadingProps) {
   return (
-    <div className="mb-4 border-b border-gray-200">
+    <div className="mb-4 border-b">
       <div className={cn(sectionHeadingVariants({ variant, className }))}>
         <h2 className="text-[13px] font-bold tracking-widest uppercase font-sans">{title}</h2>
       </div>
