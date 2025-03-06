@@ -9,22 +9,22 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return Object.keys(NewsCategory).map((category) => ({
+  return Object.values(NewsCategory).map((category) => ({
     category: category.toLowerCase(),
   }))
 }
 
-export default function Page({ params }: PageProps) {
-  const category = params.category
+export default async function Page({ params }: PageProps) {
+  // Wait for params to be available
+  const category = await Promise.resolve(params.category)
 
-  // Validate that the category exists
-  const validCategory = Object.keys(NewsCategory).find(
-    (c) => c.toLowerCase() === category.toLowerCase()
-  )
+  // Check if the category value exists in the enum
+  const validCategory = (Object.keys(NewsCategory) as (keyof typeof NewsCategory)[])
+    .find(key => NewsCategory[key].toLowerCase() === category.toLowerCase())
 
   if (!validCategory) {
     notFound()
   }
 
-  return <CategoryPage category={validCategory as keyof typeof NewsCategory} />
+  return <CategoryPage category={validCategory} />
 }
