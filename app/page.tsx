@@ -43,7 +43,7 @@ export default function Home() {
         </div>
 
         {/* Secondary Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 py-8 border-b border-gray-200">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 py-8 border-b ">
           <div className="lg:col-span-3">
             <ArticlePreviewSection
               pageSize={5}
@@ -53,7 +53,7 @@ export default function Home() {
               cardVariant="compact"
             />
           </div>
-          <div className="lg:col-span-6 border-l border-r border-gray-200">
+          <div className="lg:col-span-6 border-l border-r ">
             <ArticlePreviewSection
               pageSize={4}
               title="Latest News"
@@ -81,7 +81,7 @@ export default function Home() {
               <GridSection columns={4} rows={2} />
             </div>
           </div>
-          <div className="lg:col-span-3 border-l border-gray-200 lg:pl-8">
+          <div className="lg:col-span-3 border-l lg:pl-8">
             <ArticlePreviewSection
               pageSize={4}
               title="Science"

@@ -6,6 +6,7 @@ import { useCategoryVideos } from "@/lib/services/video-news/hooks/useVideoNews"
 import { useState } from "react"
 import VideoCard from "./Card/Index"
 import LoadingOrError from "./LoadingOrError"
+import { SectionHeading } from "../ui/section-heading"
 
 export default function VideoSection() {
     const [selectedCategory, setSelectedCategory] = useState<keyof typeof CATEGORIES>("ALL")
@@ -24,19 +25,19 @@ export default function VideoSection() {
     return (
         <section className="max-w-screen-xl mx-auto">
             <div className="mb-8">
-                <h2 className="text-[1.75rem] font-serif font-bold mb-6">Latest Videos</h2>
+                <SectionHeading title="Latest Videos" variant="gray" />
                 {/* Categories */}
-                <div className="overflow-x-auto border-b border-gray-200">
-                    <div className="flex space-x-8 min-w-max pb-3">
+                <div className="overflow-x-auto border-b 0">
+                    <div className="flex space-x-8 min-w-max pb-3 px-4 md:px-0 snap-x snap-mandatory">
                         {categories.map((cat) => (
                             <button
                                 key={cat.key}
                                 onClick={() => setSelectedCategory(cat.key)}
                                 className={cn(
-                                    "text-sm font-medium hover:text-gray-900 transition-colors relative pb-3",
+                                    "snap-start text-sm font-medium hover:text-brand-blue transition-colors relative pb-3",
                                     selectedCategory === cat.key 
-                                        ? "text-gray-900 after:absolute after:bottom-[-12px] after:left-0 after:right-0 after:h-0.5 after:bg-gray-900" 
-                                        : "text-gray-500"
+                                        ? "text-brand-blue after:absolute after:bottom-[-12px] after:left-0 after:right-0 after:h-0.5 after:bg-brand-blue after:transition-all " 
+                                        : ""
                                 )}
                             >
                                 {cat.label}
