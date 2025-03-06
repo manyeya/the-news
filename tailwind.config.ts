@@ -10,6 +10,10 @@ export default {
   theme: {
   	extend: {
   		colors: {
+			"brand-yellow": "#FBFF22",
+			"brand-blue": "#0C79FF",
+			"brand-light": "#F5F5F5",
+			"brand-dark": "#222222",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -57,6 +61,5 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		}
   	}
-  },
-  plugins: [require("tailwindcss-animate")],
+  }
 } satisfies Config;
