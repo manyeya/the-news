@@ -2,26 +2,24 @@
 import { Menu, X } from "lucide-react"
 import { SearchDialog } from "./SearchDialog"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
-import { motion, useScroll, useTransform, useSpring } from "framer-motion"
 
 export default function NewsHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { scrollY } = useScroll();
+  const [scrolled, setScrolled] = useState(false)
 
-  const paddingTop = useSpring(
-    useTransform(scrollY, [0, 100], ["2rem", "0.75rem"]),
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 100;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
 
-  );
-  const paddingBottom = useSpring(
-    useTransform(scrollY, [0, 100], ["2rem", "0.75rem"]),
-
-  );
-  const fontSize = useSpring(
-    useTransform(scrollY, [0, 100], ["4.5rem", "2rem"]),
-
-  );
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [scrolled]);
 
   const navLinks = [
     { name: "Business", href: "/category/business" },
@@ -34,13 +32,13 @@ export default function NewsHeader() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+    <header className="sticky top-0 z-50 bg-background border-b mx-auto max-w-screen-xl transition-all duration-300">
       <div className="max-w-screen-xl mx-auto">
         {/* Top bar */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+        <div className="flex items-center justify-between px-4 py-3 border-b">
           <div className="flex items-center gap-4">
             <button
-              className="flex items-center text-gray-700 hover:text-black"
+              className="flex items-center "
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? (
@@ -52,7 +50,7 @@ export default function NewsHeader() {
             <SearchDialog />
           </div>
           
-          <div className="hidden sm:block text-gray-700 font-serif">
+          <div className="hidden sm:block font-serif">
             {new Date().toLocaleDateString("en-US", { 
               weekday: "long",
               year: "numeric",
@@ -67,7 +65,7 @@ export default function NewsHeader() {
             </SignedIn>
             <SignedOut>
               <SignInButton mode="modal">
-                <button className="text-sm font-medium hover:text-black">
+                <button className="text-sm font-medium hover:text-brand-blue transition-colors">
                   Log in
                 </button>
               </SignInButton>
@@ -76,34 +74,31 @@ export default function NewsHeader() {
         </div>
 
         {/* Logo */}
-        <motion.div 
-          className="py-4 sm:py-8 text-center border-b border-gray-200"
-          style={{
-            paddingTop: paddingTop,
-            paddingBottom: paddingBottom,
-          }}
+        <div 
+          className={`text-center border-b border-gray-200 transition-all duration-300 ${
+            scrolled ? 'py-3' : 'py-8'
+          }`}
         >
           <Link href="/" className="inline-block">
-            <motion.h1 
-              className="font-serif font-bold tracking-tight"
-              style={{
-                fontSize: fontSize,
-              }}
+            <h1 
+              className={`font-serif font-bold tracking-tight transition-all duration-300 ${
+                scrolled ? 'text-[32px]' : 'text-[72px]'
+              }`}
             >
               The News
-            </motion.h1>
+            </h1>
           </Link>
-        </motion.div>
+        </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:block bg-[#121212] text-white">
+        <div className="hidden md:block">
           <nav className="flex justify-center items-center py-3 px-4">
             <div className="flex gap-8 text-sm font-medium">
               {navLinks.map((link) => (
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className="hover:text-gray-300 transition-colors"
+                  className="hover:text-brand-blue transition-colors"
                 >
                   {link.name}
                 </Link>
