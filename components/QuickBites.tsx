@@ -91,7 +91,7 @@ export default function QuickBites() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
-            className="space-y-4 mt-4 px-4 h-[350px] overflow-auto"
+            className="space-y-4 mt-4 px-4 h-[350px] overflow-auto custom-scrollbar"
           >
             <h3 className="text-xl font-serif">{articles[currentIndex].title}</h3>
             <p className="text-gray-600 leading-relaxed text-justify font-sans">
