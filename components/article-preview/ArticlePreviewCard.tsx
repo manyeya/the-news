@@ -70,8 +70,8 @@ export default function ArticlePreviewCard({
 
       {/* Content section for full variant */}
       {variant === "full" && (
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="md:flex-1 w-[200px]">
+        <div className="flex flex-col gap-6">
+          <div className="md:flex-1">
             {description && showDescription && (
               <Description className="text-left" text={description} size="default" threshold={100} clamp="xl" />
             )}
