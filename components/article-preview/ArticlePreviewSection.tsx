@@ -74,14 +74,14 @@ export default function ArticlePreviewSection({ category = "General", title, sec
   return (
     <div className={cn("w-full flex flex-col", className)}>
       {showSectionHeading && (
-        <div className="mb-6 border-b border-gray-200">
+        <div className="mb-6 border-gray-200">
           <SectionHeading 
             title={title.toUpperCase()} 
             variant={sectionVariant || "yellow"} 
           />
         </div>
       )}
-      <div className="space-y-6">
+      <div className="space-y-">
         {data?.articles?.map((story, index) => (
           <div key={index}>
             <ArticlePreviewCard 
