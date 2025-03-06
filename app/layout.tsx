@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ClientProviders from "./providers/ClientProviders";
 import NewsHeader from "@/components/NewsHeader";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,6 +75,8 @@ export default function RootLayout({
 
           {children}
 
+          <Footer />
+          
           <div id="offline-indicator" />
         </ClientProviders>
       </body>
