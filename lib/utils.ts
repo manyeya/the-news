@@ -23,3 +23,12 @@ export function clean(text: string): string {
   // Return the substring before the last hyphen
   return text.substring(0, lastHyphenIndex).trim();
 }
+
+
+export function getRandomInt(min: number, max: number): number {
+
+  if (min > max) {
+    throw new Error("Min should not be greater than Max");
+  }
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
