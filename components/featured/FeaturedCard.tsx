@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import Title from "../ui/title"
+import Description from "../ui/description"
 import type { FC } from "react"
 
 interface FeaturedCardProps {
@@ -17,16 +18,9 @@ const FeaturedCard: FC<FeaturedCardProps> = ({
   title, 
   description, 
   className = "", 
-  link="#", 
+  link = "#", 
   size = 'small'
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const handleTitleClick = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent Link navigation
-    setIsExpanded(!isExpanded);
-  };
-
   return (
     <Link className={`group flex flex-col h-full ${className}`} href={link}>
       <div className="space-y-4">
@@ -46,23 +40,19 @@ const FeaturedCard: FC<FeaturedCardProps> = ({
           )}
         </div>
         <div className="space-y-3">
-          <h2 
-            onClick={handleTitleClick}
-            className={`cursor-pointer leading-tight ${
-              size === 'small' ? 'text-sm font-sans font-normal' :
-              size === 'large' ? 'text-2xl md:text-[2.5rem] font-serif font-bold leading-[1.1]' :
-              'text-xl md:text-2xl font-serif'
-            } ${!isExpanded ? 'line-clamp-2' : ''} group-hover:text-gray-700 transition-colors`}
-          >
-            {title}
-            {!isExpanded && title.length > 90 && (
-              <span className="text-gray-500 text-sm ml-1">...</span>
-            )}
-          </h2>
+          <Title 
+            text={title}
+            size={size === 'small' ? 'sm' : size === 'large' ? 'lg' : 'default'}
+            weight={size === 'large' ? 'bold' : 'normal'}
+            clamp="default"
+            className="group-hover:text-gray-700 transition-colors"
+          />
           {description && (
-            <p className="font-serif text-[1.0625rem] leading-[1.5] text-gray-600 mt-2">
-              {description}
-            </p>
+            <Description 
+              text={description}
+              size={size === 'small' ? 'sm' : size === 'large' ? 'lg' : 'default'}
+              clamp={size === 'large' ? 'lg' : 'default'}
+            />
           )}
         </div>
       </div>

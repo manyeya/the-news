@@ -71,13 +71,13 @@ export default function ArticlePreviewCard({
           text={title}
           size={variant === "full" ? "default" : "sm"}
           weight={variant !== "text-only" ? "bold" : undefined}
-          className="font-serif leading-tight group-hover:text-gray-600 transition-colors"
+          className={`${variant === "full" ? 'px-4' : ''} font-serif leading-tight group-hover:text-gray-600 transition-colors`}
         />
       </Link>
 
       {/* Content section for full variant */}
       {variant === "full" && (
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col md:flex-row gap-8 px-4">
 
           {description && showDescription && (
             <div className="md:flex-1">

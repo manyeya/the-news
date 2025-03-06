@@ -23,7 +23,7 @@ export default function ArticlePreviewSection({ category = "General", title, sec
       <div className={cn("w-full flex flex-col", className)}>
         <div className="mb-6">
           {showSectionHeading && (
-            <div className="border-b border-gray-200">
+            <div className="">
               <SectionHeading 
                 title={title.toUpperCase()} 
                 variant={sectionVariant || "yellow"} 
@@ -39,7 +39,7 @@ export default function ArticlePreviewSection({ category = "General", title, sec
                 showImage={(index + 1) % 2 === 0} 
               />
               {index < (pageSize || 4) - 1 && (
-                <div className="pt-6 mt-6 border-t border-gray-100" />
+                <div className="pt-6 mt-6 border-t " />
               )}
             </div>
           ))}
