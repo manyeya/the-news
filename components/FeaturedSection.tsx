@@ -4,6 +4,7 @@ import FeaturedCard from "./FeaturedCard";
 import Marquee from "./Marquee";
 import { SectionHeading } from "./ui/section-heading";
 import { useSearchNews } from "@/lib/services/news/hooks/useNews";
+import { FeaturedCardSkeleton } from "./FeaturedCardSkeleton";
 
 
 export default function FeaturedSection() {
@@ -13,44 +14,62 @@ export default function FeaturedSection() {
     if (isLoading) {
         return (
             <div className="max-w-screen-xl mx-auto px-4 py-8">
-                <div className="text-center">Loading...</div>
+                <div className="space-y-8">
+                    <div className="relative border-b pb-3">
+                        <div className="flex items-center gap-4">
+                            <SectionHeading title="Featured" variant={'yellow'}/>
+                            <div className="flex-1 h-[48px] bg-gray-100 animate-pulse rounded" />
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <FeaturedCardSkeleton size="medium" />
+                        <FeaturedCardSkeleton size="medium" />
+                        <FeaturedCardSkeleton size="medium" />
+                    </div>
+                </div>
             </div>
         )
     }
+
     if (isError) {
         return (
             <div className="max-w-screen-xl mx-auto px-4 py-8">
-                <div className="text-center text-red-600">
-                    Error loading news. Please try again later.
+                <div className="bg-red-50 p-6 rounded-sm">
+                    <div className="text-center">
+                        <p className="font-serif text-lg text-red-800">Unable to load featured stories</p>
+                        <p className="text-sm text-red-600 mt-2">Please check your connection and try again</p>
+                    </div>
                 </div>
             </div>
         )
     }
   return (
-    <div className="max-w-screen-xl mx-auto">
-      <div className="relative border-b pb-3">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-          <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 flex-1">
-            <SectionHeading title="Featured" variant={'gray'}/>
-            <div className="flex-1 w-full h-[48px] rounded-md overflow-hidden">
-              <Marquee
-                titles={marqueeTitles!}
-              />
+    <div className="max-w-screen-xl mx-auto px-4">
+        <div className="space-y-8">
+            {/* Header with Marquee */}
+            <div className="relative border-b pb-3">
+                <div className="flex items-center gap-4">
+                    <SectionHeading title="Featured" variant={'yellow'}/>
+                    <div className="flex-1 rounded-sm overflow-hidden">
+                        <Marquee titles={marqueeTitles!} />
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Articles Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 ">
-        {articles.map((article, index) => (
-          <FeaturedCard
-            key={index}
-            title={article.title}
-            imageUrl={article.urlToImage}
-          />
-        ))}
-      </div>
+            {/* Articles Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {articles.map((article, index) => (
+                    <FeaturedCard
+                        key={index}
+                        size={'medium'}
+                        title={article.title}
+                        description={article.description}
+                        imageUrl={article.urlToImage}
+                        link={article.url}
+                    />
+                ))}
+            </div>
+        </div>
     </div>
   )
 }

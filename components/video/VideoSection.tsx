@@ -22,22 +22,27 @@ export default function VideoSection() {
     if (isLoading || isError) return <LoadingOrError isError={isError} categories={categories} />
 
     return (
-        <section className="max-w-screen-xl mx-auto px-4">
-            {/* Categories */}
-            <div className="mb-6 overflow-x-auto">
-                <div className="flex space-x-6 min-w-max">
-                    {categories.map((cat) => (
-                        <button
-                            key={cat.key}
-                            onClick={() => setSelectedCategory(cat.key)}
-                            className={cn(
-                                "text-sm hover:text-blue-600",
-                                selectedCategory === cat.key ? "text-blue-600" : "text-gray-600",
-                            )}
-                        >
-                            {cat.label}
-                        </button>
-                    ))}
+        <section className="max-w-screen-xl mx-auto">
+            <div className="mb-8">
+                <h2 className="text-[1.75rem] font-serif font-bold mb-6">Latest Videos</h2>
+                {/* Categories */}
+                <div className="overflow-x-auto border-b border-gray-200">
+                    <div className="flex space-x-8 min-w-max pb-3">
+                        {categories.map((cat) => (
+                            <button
+                                key={cat.key}
+                                onClick={() => setSelectedCategory(cat.key)}
+                                className={cn(
+                                    "text-sm font-medium hover:text-gray-900 transition-colors relative pb-3",
+                                    selectedCategory === cat.key 
+                                        ? "text-gray-900 after:absolute after:bottom-[-12px] after:left-0 after:right-0 after:h-0.5 after:bg-gray-900" 
+                                        : "text-gray-500"
+                                )}
+                            >
+                                {cat.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -59,8 +64,8 @@ export default function VideoSection() {
                     </div>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
-                    <div className="lg:col-span-3 bg-gray-200">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <div className="lg:col-span-3">
                         {category.items[0] && (
                             <VideoCard
                                 video={{
@@ -73,7 +78,7 @@ export default function VideoSection() {
                             />
                         )}
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-6">
                         {category.items.slice(1, 4).map((video, index) => (
                             <VideoCard
                                 key={index}
@@ -91,4 +96,3 @@ export default function VideoSection() {
         </section>
     )
 }
-
