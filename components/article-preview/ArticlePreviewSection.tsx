@@ -13,7 +13,6 @@ interface ArticleSectionProps {
   cardVariant?: ArticleCardVariant;
   showSectionHeading?: boolean;
   className?: string;
-
 }
 
 export default function ArticlePreviewSection({ category = "General", title, sectionVariant, cardVariant, showSectionHeading = true, className, pageSize }: ArticleSectionProps) {
@@ -21,15 +20,23 @@ export default function ArticlePreviewSection({ category = "General", title, sec
 
   if (isLoading) {
     return (
-      <div className={cn("w-full h-[600px] flex flex-col", className)}>
-        <div className="sticky top-0 z-10">
-          {showSectionHeading && <SectionHeading title={title} variant={sectionVariant || "yellow"} />}
+      <div className={cn("w-full flex flex-col", className)}>
+        <div className="mb-6">
+          {showSectionHeading && (
+            <div className="border-b border-gray-200">
+              <SectionHeading 
+                title={title.toUpperCase()} 
+                variant={sectionVariant || "yellow"} 
+              />
+            </div>
+          )}
         </div>
-        <div className="space-y-4 overflow-y-auto flex-1">
+        <div className="space-y-6">
           {Array(5).fill(0).map((_, index) => (
             <div key={index} className="py-2">
-              <Skeleton className="h-5 w-3/4 mb-1" />
-              {index < 4 && <div className="h-px border-t mt-4" />}
+              <Skeleton className="h-6 w-3/4 mb-2" />
+              <Skeleton className="h-4 w-1/2" />
+              {index < 4 && <div className="h-px bg-gray-100 mt-6" />}
             </div>
           ))}
         </div>
@@ -39,14 +46,21 @@ export default function ArticlePreviewSection({ category = "General", title, sec
 
   if (isError) {
     return (
-      <div className={cn("w-full h-[600px] flex flex-col", className)}>
-        <div className="sticky top-0 z-10">
-          {showSectionHeading && <SectionHeading title={title} variant={sectionVariant || "yellow"} />}
+      <div className={cn("w-full flex flex-col", className)}>
+        <div className="mb-6">
+          {showSectionHeading && (
+            <div className="border-b border-gray-200">
+              <SectionHeading 
+                title={title.toUpperCase()} 
+                variant={sectionVariant || "yellow"} 
+              />
+            </div>
+          )}
         </div>
-        <div className="bg-red-50 dark:bg-red-950/10 p-6 overflow-y-auto flex-1">
+        <div className="bg-red-50 p-6">
           <div className="text-red-800 text-center">
-            <p className="font-semibold">Unable to load top stories</p>
-            <p className="text-sm mt-1">Please check your internet connection and try again</p>
+            <p className="font-serif text-lg">Unable to load top stories</p>
+            <p className="font-sans text-sm mt-2">Please check your internet connection and try again</p>
           </div>
         </div>
       </div>
@@ -54,14 +68,27 @@ export default function ArticlePreviewSection({ category = "General", title, sec
   }
 
   return (
-    <div className={cn("w-full h-[600px] flex flex-col", className)}>
-      {showSectionHeading && <div className="sticky top-0 z-10 border-b">
-        <SectionHeading title={title} variant={sectionVariant || "yellow"} />
-      </div>}
-      <div className="space-y-4 h-full overflow-y-auto custom-scrollbar pt-4 snap-y snap-proximity">
+    <div className={cn("w-full flex flex-col", className)}>
+      {showSectionHeading && (
+        <div className="mb-6 border-b border-gray-200">
+          <SectionHeading 
+            title={title.toUpperCase()} 
+            variant={sectionVariant || "yellow"} 
+          />
+        </div>
+      )}
+      <div className="space-y-6">
         {data?.articles?.map((story, index) => (
-          <div className="snap-start" key={index}>
-            <ArticlePreviewCard showImage={(index + 1) % 2 === 0} description={story.description} imageUrl={story.urlToImage} variant={cardVariant || "text-only"} title={clean(story.title)} href={story.url} underLine={index < data.articles.length - 1} />
+          <div key={index}>
+            <ArticlePreviewCard 
+              showImage={(index + 1) % 2 === 0} 
+              description={story.description} 
+              imageUrl={story.urlToImage} 
+              variant={cardVariant || "text-only"} 
+              title={clean(story.title)} 
+              href={story.url} 
+              underLine={index < data.articles.length - 1} 
+            />
           </div>
         ))}
       </div>
