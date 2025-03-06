@@ -5,13 +5,21 @@ import { ClerkProvider } from "@clerk/nextjs";
 import QueryProvider from "./QueryProvider";
 import { OfflineIndicator } from "@/components/OfflineIndicator";
 import dynamic from 'next/dynamic';
+import { VideoProvider } from "@/components/video/Player/VideoContext";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const pubKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
-// Dynamically load the offline indicator to avoid hydration issues
+// avoid hydration issues
+//----------------------
 const DynamicOfflineIndicator = dynamic(() => Promise.resolve(OfflineIndicator), {
   ssr: false
 });
+
+const DynamicTheme = dynamic(() => Promise.resolve(ThemeProvider), {
+  ssr: false
+});
+//----------------------
 
 export default function ClientProviders({
   children,
@@ -22,8 +30,18 @@ export default function ClientProviders({
     <ClerkProvider publishableKey={pubKey!}>
       <ConvexClientProvider>
         <QueryProvider>
-          {children}
-          <DynamicOfflineIndicator />
+          <VideoProvider>
+            <DynamicTheme
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+
+            >
+              {children}
+            </DynamicTheme>
+            <DynamicOfflineIndicator />
+          </VideoProvider>
         </QueryProvider>
       </ConvexClientProvider>
     </ClerkProvider>
