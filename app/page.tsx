@@ -1,61 +1,41 @@
-"use client";
-
-import {
-  Authenticated,
-  Unauthenticated,
-} from "convex/react";
-import { SignUpButton, SignInButton, UserButton } from "@clerk/nextjs";
+"use client"
+import ArticleSection from "@/components/article-preview/ArticlePreviewSection";
+import FeaturedSection from "@/components/FeaturedSection";
 import VideoSection from "@/components/video/VideoSection";
-import TopStories from "@/components/TopStories";
+import QuickBites from "@/components/QuickBites";
+import FeaturedCard from "@/components/FeaturedCard";
 
 export default function Home() {
   return (
-    <>
-      <header className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-600">The News</h1>
-          <UserButton />
+    <div className="space-y-12 mx-auto max-w-screen-xl">
+      <div className="border-b grid grid-cols-1 md:grid-cols-2 h-full md:h-[600px] md:max-h-[1200px] gap-4">
+        <FeaturedCard size="large" description="Global stocks retreated, erasing gains for the week as a glum set of European corporate earnings compounded investor nervousness before a major speech from U.S. President Donald Trump. Gold extended its rally as the dollar edged lower." title={"What One Photo Tells Us About North Korea’s Nuclear Program"} imageUrl={"/zero.png"} />
+        <div className="grid grid-cols-1 h-full md:grid-cols-2 gap-4">
+          <ArticleSection title="Top Stories" category="General" sectionVariant="yellow" />
+          <QuickBites articles={[
+            {
+              title: "Stocks Sell Off, Gold Rises Markets Wrap",
+              content: "Global stocks retreated, erasing gains for the week as a glum set of European corporate earnings compounded investor nervousness before a major speech from U.S. President Donald Trump. Gold extended its rally as the dollar edged lower."
+            },
+            {
+              title: "Another Day in the Market: What You Need to Know",
+              content: "Investors remain cautious, focusing on economic data releases and potential policy changes."
+            }
+          ]} />
         </div>
-      </header>
-      
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        <Authenticated>
-          <div className="space-y-12">
-            <TopStories />
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold">News Videos</h2>
-              <VideoSection />
-            </div>
-          </div>
-        </Authenticated>
-        <Unauthenticated>
-          <SignInForm />
-        </Unauthenticated>
-      </main>
-    </>
-  );
-}
-
-function SignInForm() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8">
-      <div className="text-center space-y-4">
-        <h2 className="text-3xl font-bold">Welcome to The News</h2>
-        <p className="text-gray-600">Sign in to access the latest news and updates</p>
       </div>
-      
-      <div className="flex flex-col gap-4 w-full max-w-sm">
-        <SignInButton mode="modal">
-          <button className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-            Sign in
-          </button>
-        </SignInButton>
-        
-        <SignUpButton mode="modal">
-          <button className="w-full bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition-colors">
-            Create account
-          </button>
-        </SignUpButton>
+      <FeaturedSection />
+      <div className="border-b grid grid-cols-1 md:grid-cols-5 md:h-[600px] md:max-h-[1200px] gap-4">
+        <ArticleSection pageSize={5} title="Entertainment" category="Entertainment" sectionVariant="yellow" />
+        <ArticleSection pageSize={2} className="col-span-2 border-x px-2" title="General" category="General" sectionVariant="blue" cardVariant="compact" showSectionHeading={false} />
+        <ArticleSection pageSize={5} title="Technology" category="Technology" sectionVariant="yellow" />
+        <ArticleSection pageSize={2} title="Sports" category="Sports" sectionVariant="gray" cardVariant="compact" />
+      </div>
+      <div className="border-b grid grid-cols-1 md:grid-cols-4">
+        <div className="col-span-3">
+          <VideoSection />
+        </div>
+        <ArticleSection pageSize={5} title="Science" category="Science" sectionVariant="yellow" />
       </div>
     </div>
   );
