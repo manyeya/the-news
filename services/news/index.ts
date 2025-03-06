@@ -45,7 +45,7 @@ export async function searchNews(params: SearchNewsParams): Promise<NewsResponse
       headers: {
         'X-Api-Key': NEWS_API_KEY || '',
       },
-      next: { revalidate: 300 }, // Cache for 5 minutes
+      next: { revalidate: 300 }
     }
   );
 

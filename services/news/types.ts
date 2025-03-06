@@ -20,6 +20,7 @@ export interface Article {
   urlToImage: string;
   publishedAt: string;
   content: string;
+  category?: keyof typeof NewsCategory;
 }
 
 export interface NewsResponse {
