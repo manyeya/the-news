@@ -4,6 +4,7 @@ import { useSearchNews } from "@/lib/services/news/hooks/useNews";
 import ArticlePreviewCard from "./ArticlePreviewCard";
 import { SectionHeading } from "../ui/section-heading";
 import { ArticlePreviewSkeleton } from "./ArticlePreviewSkeleton";
+import { generateArticleUrl } from "@/lib/utils";
 
 interface GridSectionProps {
     columns?: number;
@@ -52,7 +53,7 @@ export default function GridSection({ columns = 4, rows = 2 }: GridSectionProps)
     };
 
     return (
-        <section className="container mx-auto px-4 py-8">
+        <section className="container mx-auto py-8">
             <SectionHeading title="Breaking News" />
             <div style={gridStyle}>
                 {articles.map((article, index) => (
@@ -61,7 +62,7 @@ export default function GridSection({ columns = 4, rows = 2 }: GridSectionProps)
                         title={article.title}
                         description={article.description}
                         imageUrl={article.urlToImage}
-                        href={article.url}
+                        href={generateArticleUrl(article,"General")}
                         variant="compact"
                     />
                 ))}

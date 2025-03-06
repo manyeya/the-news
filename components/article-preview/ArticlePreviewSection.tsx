@@ -2,7 +2,7 @@ import { useTopHeadlines } from "@/lib/services/news/hooks/useNews";
 import ArticlePreviewCard, { ArticleCardVariant } from "./ArticlePreviewCard";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { NewsCategory } from "@/lib/services/news/types";
-import { clean, cn } from "@/lib/utils";
+import { clean, cn, generateArticleUrl } from "@/lib/utils";
 import { ArticlePreviewSkeleton } from "./ArticlePreviewSkeleton";
 
 interface ArticleSectionProps {
@@ -90,7 +90,7 @@ export default function ArticlePreviewSection({ category = "General", title, sec
               imageUrl={story.urlToImage} 
               variant={cardVariant || "text-only"} 
               title={clean(story.title)} 
-              href={story.url} 
+              href={generateArticleUrl(story, category)}
               underLine={index < data.articles.length - 1} 
             />
           </div>

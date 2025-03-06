@@ -55,12 +55,12 @@ export default function ArticlePreviewCard({
       {/* Image for compact variant */}
       {variant === "compact" && imageUrl && showImage && (
         <div className="relative aspect-[16/9] w-full">
-          <Image 
-            src={imageUrl || "/placeholder.svg"} 
-            alt={title} 
-            fill 
-            className="object-cover hover:opacity-90 transition-opacity" 
-            priority 
+          <Image
+            src={imageUrl || "/placeholder.svg"}
+            alt={title}
+            fill
+            className="object-cover hover:opacity-90 transition-opacity"
+            priority
           />
         </div>
       )}
@@ -78,17 +78,19 @@ export default function ArticlePreviewCard({
       {/* Content section for full variant */}
       {variant === "full" && (
         <div className="flex flex-col md:flex-row gap-8">
-          <div className="md:flex-1">
-            {description && showDescription && (
-              <Description 
-                className="text-left font-serif text-[17px] leading-relaxed text-gray-600" 
-                text={description} 
-                size="default" 
-                threshold={100} 
-                clamp="xl" 
+
+          {description && showDescription && (
+            <div className="md:flex-1">
+              <Description
+                className="text-left font-serif text-[17px] leading-relaxed "
+                text={description}
+                size="default"
+                threshold={100}
+                clamp="xl"
               />
-            )}
-          </div>
+            </div>
+          )}
+
           {imageUrl && showImage && (
             <div className="md:w-[360px]">
               <div className="relative aspect-[16/9] w-full">
@@ -107,16 +109,16 @@ export default function ArticlePreviewCard({
 
       {/* Description for compact variant */}
       {variant === "compact" && description && showDescription && (
-        <Description 
-          text={description} 
-          size="sm" 
+        <Description
+          text={description}
+          size="sm"
           clamp="sm"
-          className="font-serif text-[15px] leading-relaxed text-gray-600" 
+          className="font-serif text-[15px] leading-relaxed "
         />
       )}
 
       {/* Underline for all variants */}
-      {underLine && <div className="pt-4 border-t border-gray-100" />}
+      {underLine && <div className="pt-4 border-t " />}
     </article>
   )
 }
