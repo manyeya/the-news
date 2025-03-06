@@ -1,9 +1,9 @@
 "use client"
-import ArticleSection from "@/components/article-preview/ArticlePreviewSection";
+import ArticlePreviewSection from "@/components/article-preview/ArticlePreviewSection";
 import VideoSection from "@/components/video/VideoSection";
 import QuickBites from "@/components/QuickBites";
-import FeaturedCard from "@/components/FeaturedCard";
-import FeaturedSection from "@/components/FeaturedSection";
+import MainSection from "@/components/MainSection";
+import FeaturedSection from "@/components/featured/FeaturedSection";
 import GridSection from "@/components/article-preview/GridSection";
 
 export default function Home() {
@@ -12,21 +12,16 @@ export default function Home() {
 
       <div className="space-y-12">
         {/* Lead Story Section */}
-        <div className="border-b border-gray-200 py-8">
+        <div className="border-b  py-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Main Story - 50% */}
             <div className="lg:col-span-6">
-              <FeaturedCard
-                size="large"
-                description="Global stocks retreated, erasing gains for the week as a glum set of European corporate earnings compounded investor nervousness before a major speech from U.S. President Donald Trump. Gold extended its rally as the dollar edged lower."
-                title="What One Photo Tells Us About North Korea's Nuclear Program"
-                imageUrl="/zero.png"
-              />
+              <MainSection />
             </div>
 
             {/* Secondary Stories - 25% */}
-            <div className="lg:col-span-3 border-l border-gray-200 lg:pl-8">
-              <ArticleSection
+            <div className="lg:col-span-3 border-l  lg:pl-8">
+              <ArticlePreviewSection
                 title="Top Stories"
                 category="General"
                 sectionVariant="yellow"
@@ -50,8 +45,8 @@ export default function Home() {
         {/* Secondary Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 py-8 border-b border-gray-200">
           <div className="lg:col-span-3">
-            <ArticleSection
-              pageSize={4}
+            <ArticlePreviewSection
+              pageSize={5}
               title="Entertainment"
               category="Entertainment"
               sectionVariant="yellow"
@@ -59,16 +54,16 @@ export default function Home() {
             />
           </div>
           <div className="lg:col-span-6 border-l border-r border-gray-200 px-8">
-            <ArticleSection
-              pageSize={5}
+            <ArticlePreviewSection
+              pageSize={4}
               title="Latest News"
               category="General"
-              sectionVariant="blue"
+              sectionVariant="gray"
               cardVariant="full"
             />
           </div>
           <div className="lg:col-span-3">
-            <ArticleSection
+            <ArticlePreviewSection
               pageSize={10}
               title="Technology"
               category="Technology"
@@ -87,7 +82,7 @@ export default function Home() {
             </div>
           </div>
           <div className="lg:col-span-3 border-l border-gray-200 lg:pl-8">
-            <ArticleSection
+            <ArticlePreviewSection
               pageSize={4}
               title="Science"
               category="Science"

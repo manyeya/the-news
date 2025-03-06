@@ -1,9 +1,9 @@
 "use client";
 
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
+import { useUser } from "@clerk/nextjs";
 import { api } from "@/convex/_generated/api";
-import { useEffect, useState } from "react";
-import { Id } from "@/convex/_generated/dataModel";
+import { useEffect } from "react";
 import { ArticleInteractions } from "@/components/article-preview/ArticleInteractions";
 
 interface ClientArticleProps {
@@ -19,25 +19,38 @@ export function ClientArticle({
     author,
     imageUrl,
 }: ClientArticleProps) {
-    const [articleId, setArticleId] = useState<Id<"articles"> | null>(null);
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const { isSignedIn } = useUser();
+    
+    const existingArticleId = useQuery(api.articleInteractions.getArticleIdBySlug, {
+        slug
+    });
+
     const getOrCreateArticle = useMutation(api.articleInteractions.getOrCreateArticle);
 
     useEffect(() => {
+        // Only try to create article if logged in and no existing article
         const initArticle = async () => {
-            const id = await getOrCreateArticle({
-                title,
-                slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-                content,
-                author,
-                imageUrl,
-            });
-            setArticleId(id);
+            if (!isSignedIn || existingArticleId) return;
+
+            try {
+                await getOrCreateArticle({
+                    title,
+                    slug,
+                    content,
+                    author,
+                    imageUrl,
+                });
+            } catch (error) {
+                console.error('Error initializing article:', error);
+            }
         };
 
         initArticle();
-    }, [getOrCreateArticle, title, content, author, imageUrl]);
+    }, [getOrCreateArticle, title, content, author, imageUrl, isSignedIn, existingArticleId, slug]);
 
-    if (!articleId) return null;
+    // Don't render anything if we don't have an article ID
+    if (!existingArticleId) return null;
 
-    return <ArticleInteractions articleId={articleId} />;
+    return <ArticleInteractions articleId={existingArticleId} />;
 }

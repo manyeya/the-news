@@ -20,7 +20,7 @@ export default function GridSection({ columns = 4, rows = 2 }: GridSectionProps)
     if (isLoading) {
         return (
             <section className="container mx-auto px-4 py-8">
-                <SectionHeading title="Breaking News" />
+                <SectionHeading title="Breaking News" variant={'gray'} />
                 <div className="grid gap-4" style={{
                     gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
                 }}>
