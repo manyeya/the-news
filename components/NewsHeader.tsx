@@ -2,24 +2,12 @@
 import { Menu, X } from "lucide-react"
 import { SearchDialog } from "./SearchDialog"
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
+import { ModeToggle } from "./theme/Toggle"
 
 export default function NewsHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 100;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [scrolled]);
 
   const navLinks = [
     { name: "Business", href: "/category/business" },
@@ -38,7 +26,7 @@ export default function NewsHeader() {
         <div className="flex items-center justify-between px-4 py-3 border-b">
           <div className="flex items-center gap-4">
             <button
-              className="flex items-center "
+              className="flex items-center md:hidden"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? (
@@ -60,31 +48,25 @@ export default function NewsHeader() {
           </div>
           
           <div className="flex items-center gap-4">
+      
             <SignedIn>
               <UserButton afterSwitchSessionUrl="/" />
             </SignedIn>
             <SignedOut>
               <SignInButton mode="modal">
-                <button className="text-sm font-medium hover:text-brand-blue transition-colors">
-                  Log in
+                <button className="text-base font-medium hover:text-brand-blue transition-colors">
+                  Sign In
                 </button>
               </SignInButton>
             </SignedOut>
+            <ModeToggle />
           </div>
         </div>
 
         {/* Logo */}
-        <div 
-          className={`text-center border-b border-gray-200 transition-all duration-300 ${
-            scrolled ? 'py-3' : 'py-8'
-          }`}
-        >
+        <div className="text-center border-b border-gray-200 py-4">
           <Link href="/" className="inline-block">
-            <h1 
-              className={`font-serif font-bold tracking-tight transition-all duration-300 ${
-                scrolled ? 'text-[32px]' : 'text-[72px]'
-              }`}
-            >
+            <h1 className="font-serif font-bold tracking-tight text-3xl">
               The News
             </h1>
           </Link>
