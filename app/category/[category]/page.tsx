@@ -1,5 +1,5 @@
 import { NewsCategory } from "@/lib/services/news/types"
-import CategoryPage from "@/app/components/CategoryPage"
+import CategoryPage from "@/components/CategoryPage"
 import { notFound } from "next/navigation"
 
 interface PageProps {

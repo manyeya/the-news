@@ -1,8 +1,10 @@
+import { use } from "react";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { SaveOfflineButton } from "@/components/SaveOfflineButton";
 import { NewsCategory } from "@/lib/services/news/types";
+import { ClientArticle } from "./ClientArticle";
 
 const categoryToEnum = (category: string): keyof typeof NewsCategory => {
   const formattedCategory = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
@@ -26,6 +28,8 @@ interface PageProps {
 }
 
 export default function ArticlePage({ searchParams }: PageProps) {
+  // Use searchParams with React.use to properly handle server-side data
+  const params = use(Promise.resolve(searchParams));
   const {
     title,
     description,
@@ -35,10 +39,10 @@ export default function ArticlePage({ searchParams }: PageProps) {
     publishedAt,
     sourceName,
     category,
-  } = searchParams
+  } = params;
 
-  const date = new Date(publishedAt)
-  const timeAgo = formatDistanceToNow(date, { addSuffix: true })
+  const date = new Date(publishedAt);
+  const timeAgo = formatDistanceToNow(date, { addSuffix: true });
   
   return (
     <div>
@@ -99,6 +103,13 @@ export default function ArticlePage({ searchParams }: PageProps) {
             <div className="whitespace-pre-line">{content}</div>
           </div>
 
+          <ClientArticle 
+            title={title}
+            content={content}
+            author={author}
+            imageUrl={imageUrl}
+          />
+
           {/* Source Attribution */}
           <div className="mt-8 pt-4 border-t text-sm text-gray-500">
             Source: {sourceName}
@@ -106,5 +117,5 @@ export default function ArticlePage({ searchParams }: PageProps) {
         </div>
       </main>
     </div>
-  )
+  );
 }
