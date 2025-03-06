@@ -1,7 +1,9 @@
 "use client"
-import { Menu, Search, X } from "lucide-react"
+import { Menu, X } from "lucide-react"
+import { SearchDialog } from "./SearchDialog"
 import Link from "next/link"
 import { useState } from "react"
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 export default function NewsHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -26,15 +28,20 @@ export default function NewsHeader() {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X className="w-4 h-4 mr-2" /> : <Menu className="w-4 h-4 mr-2" />}
-            <span className="hidden sm:inline">SECTIONS</span>
           </button>
           <div className="text-gray-500 text-sm hidden sm:block">Friday, February 24, 2017</div>
           <div className="flex items-center gap-2 sm:gap-4">
-            <button className="flex items-center text-gray-600">
-              <Search className="w-5 h-5 sm:mr-1" />
-              <span className="hidden sm:inline">SEARCH</span>
-            </button>
-            <button className="px-2 sm:px-3 py-1 text-gray-700 text-sm">Log in</button>
+            <SearchDialog />
+            <SignedIn>
+              <UserButton afterSwitchSessionUrl="/" />
+            </SignedIn>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="px-2 sm:px-3 py-1  text-sm">
+                  Log in
+                </button>
+              </SignInButton>
+            </SignedOut>
           </div>
         </div>
 
@@ -75,4 +82,3 @@ export default function NewsHeader() {
     </header>
   )
 }
-
