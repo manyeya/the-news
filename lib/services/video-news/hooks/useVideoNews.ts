@@ -69,19 +69,3 @@ export function useCategoryVideos(category: keyof typeof CATEGORIES, limit?: num
   };
 }
 
-// Convenient category-specific hooks
-export function useInternationalNews(limit?: number): VideoNewsResult {
-  return useCategoryVideos(CATEGORIES.INTERNATIONAL, limit);
-}
-
-export function useTechnologyNews(limit?: number): VideoNewsResult {
-  return useCategoryVideos(CATEGORIES.TECHNOLOGY, limit);
-}
-
-export function useBusinessNews(limit?: number): VideoNewsResult {
-  return useCategoryVideos(CATEGORIES.BUSINESS, limit);
-}
-
-export function useSportsNews(limit?: number): VideoNewsResult {
-  return useCategoryVideos(CATEGORIES.SPORTS, limit);
-}

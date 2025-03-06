@@ -62,25 +62,3 @@ export function useSearchNews(params: SearchNewsParams): NewsResult {
   };
 }
 
-export function useEntertainmentNews(params?: Omit<TopHeadlinesParams, 'category'>): NewsResult {
-  return useTopHeadlines({ ...params, category: 'Entertainment' });
-}
-
-export function useWorldNews(params?: Omit<TopHeadlinesParams, 'category'>): NewsResult {
-  return useTopHeadlines({ ...params, category: 'General' });
-}
-
-export function useMostPopular(params?: Partial<SearchNewsParams>): NewsResult {
-  return useSearchNews({
-    query: params?.query || 'south africa',
-    sortBy: 'popularity',
-    ...params,
-  });
-}
-
-export function useFeaturedStories(params?: TopHeadlinesParams): NewsResult {
-  return useTopHeadlines({
-    ...params,
-    pageSize: 5,
-  });
-}
