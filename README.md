@@ -9,6 +9,7 @@ A modern, feature-rich news application built with Next.js, React, and Convex th
 - **Dark/Light Mode** 🌓: Toggle between dark and light themes for comfortable reading
 - **Offline Support** 💾: Save articles for offline reading
 - **Real-time Updates** ⚡: Live content updates powered by Convex backend
+- **User Authentication** 🔐: Secure authentication via Clerk
 
 ### 📰 News Content
 - **Featured Articles** 🌟: Highlighted important stories at the top
@@ -20,10 +21,11 @@ A modern, feature-rich news application built with Next.js, React, and Convex th
 ### 💫 Interactive Features
 - **Search Functionality** 🔍: Powerful search to find specific articles
 - **Article Interactions** ❤️: 
-  - Like articles
+  - Like articles (requires authentication)
   - Save for later reading
   - Share with others
 - **Real-time Engagement** 👥: See article popularity and interactions
+- **User Profiles** 👤: Personalized user experience with Clerk
 
 ### 🚀 Technical Features
 - **Progressive Web App (PWA)** 📱: Install as a native app
@@ -42,9 +44,19 @@ A modern, feature-rich news application built with Next.js, React, and Convex th
 ## 🛠️ Built With
 - Next.js
 - React
-- Convex
+- Convex - Backend and real-time features
+- Clerk - User authentication and management
 - TypeScript
 - Tailwind CSS
+
+## 🔐 Authentication
+This project uses Clerk for secure user authentication and management:
+- Social login providers (Google, GitHub, etc.)
+- Email/password authentication
+- JWT token handling
+- User profile management
+- Role-based access control
+- Seamless integration with Convex
 
 ## 🌐 Browser Support
 - Chrome
@@ -72,19 +84,19 @@ A modern, feature-rich news application built with Next.js, React, and Convex th
    # or
    yarn install
    ```
-CONVEX_DEPLOYMENT=dev:fleet-bear-54 # team: manyeya, project: the-news
-NEXT_PUBLIC_CONVEX_URL=https://fleet-bear-54.convex.cloud
 
-CLERK_SECRET_KEY=sk_test_Rsf7r0kxq8x1BRVQWCHhUs3mwr0sVarYkyIVV3HBhg
-NEWS_API_KEY=50e8a80acb5a4aec93ed7dbfebe84737
 3. **Set up environment variables**
-   - Copy `.env.local.example` to `.env.local`
-   - Fill in the required environment variables:
-     - `NEWS_API_KEY`: Get from [News API](https://newsapi.org)
-     - `NEXT_PUBLIC_CONVEX_URL`: Get from [Convex Dashboard](https://dashboard.convex.dev)
-     - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`: for Clerk authentication
-     - `CLERK_SECRET_KEY`: For clerk authentication§
+   Copy `.env.local.example` to `.env.local` and configure:
 
+   Required variables:
+   - `NEWS_API_KEY`: Get from [News API](https://newsapi.org)
+   - `NEXT_PUBLIC_CONVEX_URL`: Get from [Convex Dashboard](https://dashboard.convex.dev)
+   - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`: Get from [Clerk Dashboard](https://dashboard.clerk.dev)
+   - `CLERK_SECRET_KEY`: Get from [Clerk Dashboard](https://dashboard.clerk.dev)
+
+   Optional variables:
+   - `NEXT_PUBLIC_ANALYTICS_ID`: For analytics integration
+   - `NEXT_PUBLIC_SITE_URL`: For social sharing features
 
 4. **Start the development server**
    ```bash

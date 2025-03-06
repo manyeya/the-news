@@ -76,12 +76,28 @@ Convex provides real-time updates for:
 - Share statistics
 - Article modifications
 
-## Authentication 🔐
+## Authentication with Clerk 🔐
 
-All mutation operations require authentication through Convex's auth system:
-- User identity checked before mutations
+This project integrates Clerk with Convex for authentication:
+
+### Integration Setup
+- Clerk handles user authentication and session management
+- JWT tokens are verified by Convex
+- User identity is accessible in mutation handlers
+
+### Authentication Flow
+1. Users authenticate via Clerk's UI components
+2. Clerk generates JWT tokens
+3. Tokens are automatically passed to Convex
+4. Convex validates tokens and extracts user info
+5. User identity available in ctx.auth
+
+### Security Features
+- Protected mutations require valid Clerk session
 - Anonymous read access for public data
-- Protected write operations
+- User identity verification on all writes
+- Role-based access control via Clerk
+- Secure token handling and validation
 
 ## Performance Optimizations 🚄
 
@@ -92,7 +108,7 @@ All mutation operations require authentication through Convex's auth system:
 
 ## Usage Notes 📝
 
-1. All write operations require authentication
+1. All write operations require Clerk authentication
 2. Queries support both authenticated and anonymous users
 3. Real-time subscriptions automatically update UI components
 4. Database operations are atomic and consistent
@@ -100,7 +116,7 @@ All mutation operations require authentication through Convex's auth system:
 ## Error Handling 🛡️
 
 - Robust error checking for:
-  - User authentication
+  - User authentication via Clerk
   - Resource existence
   - Data validation
   - Reference integrity
@@ -110,9 +126,12 @@ All mutation operations require authentication through Convex's auth system:
 1. Use provided mutations for data modifications
 2. Leverage indexes for performance
 3. Implement proper error handling
-4. Follow authentication requirements
+4. Verify Clerk authentication status
 5. Use real-time subscriptions for live updates
 
 ---
 
-For more details on Convex, visit the [official documentation](https://docs.convex.dev)
+For more details:
+- [Convex Documentation](https://docs.convex.dev)
+- [Clerk Documentation](https://clerk.com/docs)
+- [Clerk-Convex Integration Guide](https://docs.convex.dev/auth/clerk)
