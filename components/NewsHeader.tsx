@@ -19,25 +19,40 @@ export default function NewsHeader() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 bg-background">
-      <div className="max-w-screen-xl mx-auto border border-muted">
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+      <div className="max-w-screen-xl mx-auto">
         {/* Top bar */}
-        <div className="flex items-center justify-between px-4 py-2 border-b">
-          <button
-            className="flex items-center text-gray-600 text-sm"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="w-4 h-4 mr-2" /> : <Menu className="w-4 h-4 mr-2" />}
-          </button>
-          <div className="text-gray-500 text-sm hidden sm:block">Friday, February 24, 2017</div>
-          <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+          <div className="flex items-center gap-4">
+            <button
+              className="flex items-center text-gray-700 hover:text-black"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </button>
             <SearchDialog />
+          </div>
+          
+          <div className="hidden sm:block text-gray-700 font-serif">
+            {new Date().toLocaleDateString('en-US', { 
+              weekday: 'long', 
+              month: 'long', 
+              day: 'numeric', 
+              year: 'numeric' 
+            })}
+          </div>
+          
+          <div className="flex items-center gap-4">
             <SignedIn>
               <UserButton afterSwitchSessionUrl="/" />
             </SignedIn>
             <SignedOut>
               <SignInButton mode="modal">
-                <button className="px-2 sm:px-3 py-1  text-sm">
+                <button className="text-sm font-medium hover:text-black">
                   Log in
                 </button>
               </SignInButton>
@@ -46,38 +61,47 @@ export default function NewsHeader() {
         </div>
 
         {/* Logo */}
-        <div className="py-4 sm:py-8 text-center">
-          <Link href="/" className="text-4xl sm:text-6xl font-serif font-bold">The News</Link>
+        <div className="py-6 sm:py-10 text-center border-b border-gray-200">
+          <Link href="/" className="inline-block">
+            <h1 className="text-5xl sm:text-7xl font-serif font-bold tracking-tight">
+              The News
+            </h1>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:block border-t ">
-          <nav className="flex justify-center items-center py-3 px-4 gap-4 lg:gap-6 text-sm flex-wrap">
-            {navLinks.map((link) => (
-              <Link key={link.name} href={link.href} className="hover:text-gray-500">
-                {link.name}
-              </Link>
-            ))}
+        <div className="hidden md:block bg-[#121212] text-white">
+          <nav className="flex justify-center items-center py-3 px-4">
+            <div className="flex gap-8 text-sm font-medium">
+              {navLinks.map((link) => (
+                <Link 
+                  key={link.name} 
+                  href={link.href} 
+                  className="hover:text-gray-300 transition-colors"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
           </nav>
         </div>
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t">
-            <nav className="flex flex-col py-2">
+          <div className="md:hidden border-t border-gray-200">
+            <nav className="py-2">
               {navLinks.map((link) => (
-                <Link key={link.name} href={link.href} className="px-4 py-2 hover:bg-gray-50 text-sm">
+                <Link 
+                  key={link.name} 
+                  href={link.href} 
+                  className="block px-4 py-3 text-sm font-medium hover:bg-gray-50"
+                >
                   {link.name}
                 </Link>
               ))}
             </nav>
           </div>
         )}
-
-        {/* Bottom border with yellow highlight */}
-        <div className="border-t relative">
-          <div className="absolute bottom-0 right-0 h-1 w-20 sm:w-32 bg-yellow-300"></div>
-        </div>
       </div>
     </header>
   )
