@@ -1,90 +1,118 @@
-# Welcome to your Convex functions directory!
+# Convex Implementation in The News 🚀
 
-Write your Convex functions here.
-See https://docs.convex.dev/functions for more.
+This project uses Convex as its backend database and real-time engine, primarily handling user interactions with articles and social features.
 
-A query function that takes two arguments looks like:
+## Schema Design 📐
 
-```ts
-// functions.js
-import { query } from "./_generated/server";
-import { v } from "convex/values";
+### Tables
 
-export const myQueryFunction = query({
-  // Validators for arguments.
-  args: {
-    first: v.number(),
-    second: v.string(),
-  },
+#### Articles Table
+- Stores article metadata and content
+- Indexed by slug for quick lookups
+- Fields:
+  - `title`: Article title
+  - `slug`: URL-friendly identifier
+  - `content`: Article content
+  - `author`: Optional author name
+  - `imageUrl`: Optional featured image
+  - `published`: Publication status
+  - `publishedDate`: Timestamp
 
-  // Function implementation.
-  handler: async (ctx, args) => {
-    // Read the database as many times as you need here.
-    // See https://docs.convex.dev/database/reading-data.
-    const documents = await ctx.db.query("tablename").collect();
+#### Likes Table
+- Tracks article likes by users
+- Indexed by article ID and user ID for efficient queries
+- Fields:
+  - `articleId`: Reference to articles table
+  - `userId`: User identifier
+  - `timestamp`: When the like occurred
 
-    // Arguments passed from the client are properties of the args object.
-    console.log(args.first, args.second);
+#### Comments Table
+- Manages article comments with nested reply support
+- Indexed by article ID and parent comment ID
+- Fields:
+  - `articleId`: Reference to articles table
+  - `userId`: Commenter's ID
+  - `userName`: Display name
+  - `content`: Comment text
+  - `timestamp`: When posted
+  - `parentCommentId`: Optional reference for nested replies
 
-    // Write arbitrary JavaScript here: filter, aggregate, build derived data,
-    // remove non-public properties, or create new objects.
-    return documents;
-  },
-});
-```
+#### Shares Table
+- Records article sharing activities
+- Tracks sharing platform statistics
+- Fields:
+  - `articleId`: Reference to articles table
+  - `userId`: User who shared
+  - `platform`: Social platform used
+  - `timestamp`: When shared
 
-Using this query function in a React component looks like:
+## Features Implementation 🛠️
 
-```ts
-const data = useQuery(api.functions.myQueryFunction, {
-  first: 10,
-  second: "hello",
-});
-```
+### Article Management
+- `getArticleIdBySlug`: Retrieves articles by URL slug
+- `getOrCreateArticle`: Creates or updates article records
 
-A mutation function looks like:
+### Social Interactions
 
-```ts
-// functions.js
-import { mutation } from "./_generated/server";
-import { v } from "convex/values";
+#### Likes System
+- `toggleLike`: Handles like/unlike actions
+- `getUserLikeStatus`: Checks if user liked an article
+- `getLikesCount`: Real-time like counter
 
-export const myMutationFunction = mutation({
-  // Validators for arguments.
-  args: {
-    first: v.string(),
-    second: v.string(),
-  },
+#### Comments System
+- `addComment`: Posts new comments and replies
+- `getComments`: Retrieves paginated comments
+- `getCommentReplies`: Fetches nested replies
 
-  // Function implementation.
-  handler: async (ctx, args) => {
-    // Insert or modify documents in the database here.
-    // Mutations can also read from the database like queries.
-    // See https://docs.convex.dev/database/writing-data.
-    const message = { body: args.first, author: args.second };
-    const id = await ctx.db.insert("messages", message);
+#### Share Tracking
+- `recordShare`: Logs sharing events
+- `getSharesCount`: Tracks total shares and platform breakdown
 
-    // Optionally, return a value from your mutation.
-    return await ctx.db.get(id);
-  },
-});
-```
+## Real-time Features ⚡
 
-Using this mutation function in a React component looks like:
+Convex provides real-time updates for:
+- Like counts and status
+- Comment threads
+- Share statistics
+- Article modifications
 
-```ts
-const mutation = useMutation(api.functions.myMutationFunction);
-function handleButtonPress() {
-  // fire and forget, the most common way to use mutations
-  mutation({ first: "Hello!", second: "me" });
-  // OR
-  // use the result once the mutation has completed
-  mutation({ first: "Hello!", second: "me" }).then((result) =>
-    console.log(result),
-  );
-}
-```
+## Authentication 🔐
 
-Use the Convex CLI to push your functions to a deployment. See everything
-the Convex CLI can do by running `npx convex -h` in your project root
-directory. To learn more, launch the docs with `npx convex docs`.
+All mutation operations require authentication through Convex's auth system:
+- User identity checked before mutations
+- Anonymous read access for public data
+- Protected write operations
+
+## Performance Optimizations 🚄
+
+- Efficient indexing for common queries
+- Pagination support for comments
+- Optimized data access patterns
+- Real-time subscriptions for live updates
+
+## Usage Notes 📝
+
+1. All write operations require authentication
+2. Queries support both authenticated and anonymous users
+3. Real-time subscriptions automatically update UI components
+4. Database operations are atomic and consistent
+
+## Error Handling 🛡️
+
+- Robust error checking for:
+  - User authentication
+  - Resource existence
+  - Data validation
+  - Reference integrity
+
+## Best Practices 🎯
+
+1. Use provided mutations for data modifications
+2. Leverage indexes for performance
+3. Implement proper error handling
+4. Follow authentication requirements
+5. Use real-time subscriptions for live updates
+
+---
+
+For more details on Convex, visit the [official documentation](https://docs.convex.dev)
