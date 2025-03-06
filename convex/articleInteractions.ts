@@ -305,6 +305,93 @@ export const recordShare = mutation({
 });
 
 /**
+ * Get user's liked and shared articles
+ */
+export const getUserInteractions = query({
+  args: {},
+  returns: v.array(v.id("articles")),
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return [];
+
+    const userId = identity.subject;
+
+    // Get user's liked articles
+    const likes = await ctx.db
+      .query("likes")
+      .withIndex("by_user_id", (q) => q.eq("userId", userId))
+      .collect();
+
+    // Get user's shared articles
+    const shares = await ctx.db
+      .query("shares")
+      .withIndex("by_user_id", (q) => q.eq("userId", userId))
+      .collect();
+
+    // Combine and dedupe article IDs
+    const articleIds = new Set([
+      ...likes.map(like => like.articleId),
+      ...shares.map(share => share.articleId)
+    ]);
+
+    return Array.from(articleIds);
+  },
+});
+
+/**
+ * Get similar articles based on content
+ */
+export const getSimilarArticles = query({
+  args: {
+    title: v.string(),
+    content: v.string(),
+  },
+  returns: v.array(
+    v.object({
+      _id: v.id("articles"),
+      _creationTime: v.number(),
+      title: v.string(),
+      slug: v.string(),
+      content: v.string(),
+      author: v.optional(v.string()),
+      imageUrl: v.optional(v.string()),
+      published: v.boolean(),
+      publishedDate: v.number(),
+    })
+  ),
+  handler: async (ctx, args) => {
+    // Get all articles
+    const allArticles = await ctx.db.query("articles").collect();
+
+    // Helper function to calculate text similarity score
+    const getSimilarityScore = (text1: string, text2: string): number => {
+      const words1 = new Set(text1.toLowerCase().split(/\W+/));
+      const words2 = new Set(text2.toLowerCase().split(/\W+/));
+      const intersection = new Set([...words1].filter(x => words2.has(x)));
+      const union = new Set([...words1, ...words2]);
+      return intersection.size / union.size;
+    };
+
+    // Calculate similarity scores for each article
+    const articlesWithScores = allArticles.map(article => {
+      const titleScore = getSimilarityScore(args.title, article.title) * 2; // Weight title matches more
+      const contentScore = getSimilarityScore(args.content, article.content);
+      const totalScore = titleScore + contentScore;
+      return { article, score: totalScore };
+    });
+
+    // Sort by similarity score and get top 5 most similar
+    const recommendations = articlesWithScores
+      .sort((a, b) => b.score - a.score) // Sort by highest score
+      .filter(item => item.score > 0.1) // Only include if some similarity
+      .slice(0, 5) // Limit to 5 recommendations
+      .map(item => item.article);
+
+    return recommendations;
+  },
+});
+
+/**
  * Get total shares for an article
  */
 export const getSharesCount = query({

@@ -25,6 +25,7 @@ export default defineSchema({
     timestamp: v.number(),
   })
   .index("by_article_id", ["articleId"])
+  .index("by_user_id", ["userId"])
   .index("by_user_id_and_article_id", ["userId", "articleId"]),
   
   // Comments table
@@ -45,5 +46,7 @@ export default defineSchema({
     userId: v.string(),
     platform: v.string(), // e.g., "twitter", "facebook", etc.
     timestamp: v.number(),
-  }).index("by_article_id", ["articleId"]),
+  })
+  .index("by_article_id", ["articleId"])
+  .index("by_user_id", ["userId"]),
 });

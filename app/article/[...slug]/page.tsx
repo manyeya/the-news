@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SaveOfflineButton } from "@/components/SaveOfflineButton";
 import { NewsCategory } from "@/lib/services/news/types";
 import { ClientArticle } from "./ClientArticle";
+import { RecommendedArticles } from "@/components/article-preview/RecommendedArticles";
 
 const categoryToEnum = (category: string): keyof typeof NewsCategory => {
   const formattedCategory = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
@@ -110,8 +111,11 @@ export default function ArticlePage({ searchParams }: PageProps) {
             imageUrl={imageUrl}
           />
 
+          {/* Recommendations */}
+          <RecommendedArticles title={title} content={content} />
+
           {/* Source Attribution */}
-          <div className="mt-8 pt-4 border-t text-sm text-gray-500">
+          <div className="mt-4 pt-4 border-t text-sm text-gray-500">
             Source: {sourceName}
           </div>
         </div>
