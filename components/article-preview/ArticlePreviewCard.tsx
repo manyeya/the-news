@@ -10,9 +10,9 @@ export type ArticleCardVariant = "compact" | "full" | "text-only"
 const articleCardVariants = cva("", {
   variants: {
     variant: {
-      compact: "flex flex-col space-y-3",
-      full: "w-full space-y-4 ",
-      "text-only": "space-y-2",
+      compact: "flex flex-col space-y-3 px-4 sm:px-0",
+      full: "w-full space-y-4 px-4 sm:px-0",
+      "text-only": "space-y-2 px-4 sm:px-0",
     },
     contentLayout: {
       default: "",

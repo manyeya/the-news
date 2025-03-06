@@ -53,7 +53,7 @@ export default function Home() {
               cardVariant="compact"
             />
           </div>
-          <div className="lg:col-span-6 border-l border-r border-gray-200 px-8">
+          <div className="lg:col-span-6 border-l border-r border-gray-200">
             <ArticlePreviewSection
               pageSize={4}
               title="Latest News"

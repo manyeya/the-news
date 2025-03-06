@@ -19,11 +19,9 @@ export default function GridSection({ columns = 4, rows = 2 }: GridSectionProps)
 
     if (isLoading) {
         return (
-            <section className="container mx-auto px-4 py-8">
+            <section className="container mx-auto py-8">
                 <SectionHeading title="Breaking News" variant={'gray'} />
-                <div className="grid gap-4" style={{
-                    gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-                }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {Array(columns * rows)
                         .fill(0)
                         .map((_, index) => (
@@ -36,7 +34,7 @@ export default function GridSection({ columns = 4, rows = 2 }: GridSectionProps)
 
     if (isError) {
         return (
-            <section className="container mx-auto px-4 py-8">
+            <section className="container mx-auto py-8">
                 <SectionHeading title="Breaking News" />
                 <div className="text-center py-8 text-gray-500">
                     Failed to load breaking news
@@ -46,16 +44,11 @@ export default function GridSection({ columns = 4, rows = 2 }: GridSectionProps)
     }
 
     const articles = data?.articles || [];
-    const gridStyle = {
-        display: "grid",
-        gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-        gap: "1rem",
-    };
 
     return (
         <section className="container mx-auto py-8">
             <SectionHeading title="Breaking News" />
-            <div style={gridStyle}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {articles.map((article, index) => (
                     <ArticlePreviewCard
                         key={index}

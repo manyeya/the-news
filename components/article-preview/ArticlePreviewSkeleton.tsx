@@ -38,7 +38,7 @@ export function ArticlePreviewSkeleton({
 
       {/* Compact variant */}
       {variant === 'compact' && (
-        <div className="space-y-3">
+        <div className="space-y-3 px-4 sm:px-0">
           {showImage && (
             <div className="aspect-[16/9]">
               <Skeleton className="w-full h-full" />
@@ -54,7 +54,7 @@ export function ArticlePreviewSkeleton({
 
       {/* Text-only variant */}
       {variant === 'text-only' && (
-        <div className="space-y-2">
+        <div className="space-y-2 px-4 sm:px-0">
           <Skeleton className="h-5 w-[90%]" />
           <Skeleton className="h-5 w-[75%]" />
         </div>
