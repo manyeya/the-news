@@ -4,9 +4,24 @@ import { SearchDialog } from "./SearchDialog"
 import Link from "next/link"
 import { useState } from "react"
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
+import { motion, useScroll, useTransform, useSpring } from "framer-motion"
 
 export default function NewsHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { scrollY } = useScroll();
+
+  const paddingTop = useSpring(
+    useTransform(scrollY, [0, 100], ["2rem", "0.75rem"]),
+
+  );
+  const paddingBottom = useSpring(
+    useTransform(scrollY, [0, 100], ["2rem", "0.75rem"]),
+
+  );
+  const fontSize = useSpring(
+    useTransform(scrollY, [0, 100], ["4.5rem", "2rem"]),
+
+  );
 
   const navLinks = [
     { name: "Business", href: "/category/business" },
@@ -38,11 +53,11 @@ export default function NewsHeader() {
           </div>
           
           <div className="hidden sm:block text-gray-700 font-serif">
-            {new Date().toLocaleDateString('en-US', { 
-              weekday: 'long', 
-              month: 'long', 
-              day: 'numeric', 
-              year: 'numeric' 
+            {new Date().toLocaleDateString("en-US", { 
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric"
             })}
           </div>
           
@@ -61,13 +76,24 @@ export default function NewsHeader() {
         </div>
 
         {/* Logo */}
-        <div className="py-6 sm:py-10 text-center border-b border-gray-200">
+        <motion.div 
+          className="py-4 sm:py-8 text-center border-b border-gray-200"
+          style={{
+            paddingTop: paddingTop,
+            paddingBottom: paddingBottom,
+          }}
+        >
           <Link href="/" className="inline-block">
-            <h1 className="text-5xl sm:text-7xl font-serif font-bold tracking-tight">
+            <motion.h1 
+              className="font-serif font-bold tracking-tight"
+              style={{
+                fontSize: fontSize,
+              }}
+            >
               The News
-            </h1>
+            </motion.h1>
           </Link>
-        </div>
+        </motion.div>
 
         {/* Desktop Navigation */}
         <div className="hidden md:block bg-[#121212] text-white">
