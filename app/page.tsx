@@ -36,17 +36,8 @@ export default function Home() {
             </div>
 
             {/* Latest News - 25% */}
-            <div className="lg:col-span-3 border-l border-gray-200 lg:pl-8">
-              <QuickBites articles={[
-                {
-                  title: "Stocks Sell Off, Gold Rises Markets Wrap",
-                  content: "Global stocks retreated, erasing gains for the week as a glum set of European corporate earnings compounded investor nervousness before a major speech from U.S. President Donald Trump. Gold extended its rally as the dollar edged lower."
-                },
-                {
-                  title: "Another Day in the Market: What You Need to Know",
-                  content: "Investors remain cautious, focusing on economic data releases and potential policy changes."
-                }
-              ]} />
+            <div className="lg:col-span-3 border-l  lg:pl-8">
+              <QuickBites />
             </div>
           </div>
         </div>
