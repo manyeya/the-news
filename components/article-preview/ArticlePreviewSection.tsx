@@ -1,9 +1,9 @@
 import { useTopHeadlines } from "@/lib/services/news/hooks/useNews";
 import ArticlePreviewCard, { ArticleCardVariant } from "./ArticlePreviewCard";
-import { Skeleton } from "@/components/ui/skeleton";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { NewsCategory } from "@/lib/services/news/types";
 import { clean, cn } from "@/lib/utils";
+import { ArticlePreviewSkeleton } from "./ArticlePreviewSkeleton";
 
 interface ArticleSectionProps {
   pageSize?: number;
@@ -32,11 +32,15 @@ export default function ArticlePreviewSection({ category = "General", title, sec
           )}
         </div>
         <div className="space-y-6">
-          {Array(5).fill(0).map((_, index) => (
-            <div key={index} className="py-2">
-              <Skeleton className="h-6 w-3/4 mb-2" />
-              <Skeleton className="h-4 w-1/2" />
-              {index < 4 && <div className="h-px bg-gray-100 mt-6" />}
+          {Array(pageSize || 4).fill(0).map((_, index) => (
+            <div key={index}>
+              <ArticlePreviewSkeleton 
+                variant={cardVariant} 
+                showImage={(index + 1) % 2 === 0} 
+              />
+              {index < (pageSize || 4) - 1 && (
+                <div className="pt-6 mt-6 border-t border-gray-100" />
+              )}
             </div>
           ))}
         </div>

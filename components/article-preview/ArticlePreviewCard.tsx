@@ -10,9 +10,9 @@ export type ArticleCardVariant = "compact" | "full" | "text-only"
 const articleCardVariants = cva("", {
   variants: {
     variant: {
-      compact: "flex flex-col space-y-3",
-      full: "w-full space-y-4",
-      "text-only": "space-y-2",
+      compact: "flex flex-col space-y-3 pb-4",
+      full: "w-full space-y-4 pb-4",
+      "text-only": "space-y-2 pb-4",
     },
     contentLayout: {
       default: "",
@@ -116,7 +116,7 @@ export default function ArticlePreviewCard({
       )}
 
       {/* Underline for all variants */}
-      {underLine && <div className="mt-6 border-t border-gray-100" />}
+      {underLine && <div className="pt-4 border-t border-gray-100" />}
     </article>
   )
 }
