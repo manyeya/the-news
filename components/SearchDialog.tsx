@@ -5,7 +5,6 @@ import { Search } from "lucide-react"
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -13,7 +12,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { useSearchNews } from "@/lib/services/news/hooks/useNews"
 import { Button } from "@/components/ui/button"
-import ArticlePreviewCard from "./article-preview/ArticlePreviewCard"
+import { Skeleton } from "@/components/ui/skeleton"
+import { generateArticleUrl } from "@/lib/utils"
+import Link from "next/link"
 
 export function SearchDialog() {
   const [query, setQuery] = useState("")
@@ -33,35 +34,50 @@ export function SearchDialog() {
           <span className="hidden sm:inline">SEARCH</span>
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[640px] max-h-[80vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[640px] max-h-[80vh] overflow-y-auto rounded-none border-[3px]">
         <DialogHeader>
-          <DialogTitle>Search News</DialogTitle>
-          <DialogDescription>
-            Enter keywords to search for news articles
-          </DialogDescription>
+          <DialogTitle className="font-sans text-sm">Search Articles</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSearch} className="space-y-4">
-          <div className="flex gap-2">
+          <div className="flex gap-4">
             <Input
               placeholder="Search news..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              className="h-12 text-lg rounded-none border-0 border-b-2 focus:border-brand-blue transition-colors focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
             />
-            <Button type="submit">Search</Button>
+            <Button type="submit" className="rounded-none bg-brand-blue  text-lg h-12 px-8">Search</Button>
           </div>
         </form>
-        <div className="space-y-4 mt-4">
-          {isLoading && <p>Searching...</p>}
+        <div className="space-y-6 mt-4">
+          {isLoading && (
+            <div className="space-y-6">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="space-y-2">
+                  <Skeleton className="h-6 w-3/4 rounded-none" />
+                  <Skeleton className="h-4 w-full rounded-none" />
+                </div>
+              ))}
+            </div>
+          )}
           {isError && <p className="text-red-500">Error searching news</p>}
           {data?.articles.map((article, index) => (
-            <ArticlePreviewCard
+            <Link 
               key={index}
-              title={article.title}
-              description={article.description}
-              imageUrl={article.urlToImage}
-              href={article.url}
-              variant="compact"
-            />
+              href={generateArticleUrl(article, "search")}
+              className="block group"
+            >
+              <article className="space-y-2">
+                <h3 className="font-serif text-xl font-medium group-hover:text-brand-blue transition-colors">
+                  {article.title}
+                </h3>
+                {article.description && (
+                  <p className="text-sm text-muted-foreground line-clamp-2">
+                    {article.description}
+                  </p>
+                )}
+              </article>
+            </Link>
           ))}
         </div>
       </DialogContent>

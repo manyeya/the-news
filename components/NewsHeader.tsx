@@ -64,7 +64,7 @@ export default function NewsHeader() {
         </div>
 
         {/* Logo */}
-        <div className="text-center border-b border-gray-200 py-4">
+        <div className="text-center border-b py-4">
           <Link href="/" className="inline-block">
             <h1 className="font-serif font-bold tracking-tight text-3xl">
               The News

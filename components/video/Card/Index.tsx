@@ -32,30 +32,29 @@ export default function VideoCard({ video, isMain = false }: { video: VideoProps
                         />
                         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="rounded-full bg-black/60 p-3 group-hover:bg-black/80 transition-colors">
-                                <Play className="w-6 h-6 text-white" fill="white" />
+                            <div className="rounded-full bg-black/60 group-hover:bg-black/80 transition-colors">
+                                <Play className={cn(
+                                    "text-white",
+                                    isMain ? "w-6 h-6 m-2" : "w-4 h-4 m-1.5"
+                                )} fill="white" />
                             </div>
                         </div>
-                        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+                        <div className={cn(
+                            "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent pl-3",
+                            isMain ? "p-6" : "py-2 pr-2"
+                        )}>
                             <h2 className={cn(
-                                "font-serif leading-tight text-white mb-3",
-                                isMain ? "text-2xl md:text-[2rem]" : "text-lg"
+                                "font-sans leading-tight text-white mb-1.5 text-left line-clamp-2 pl-0",
+                                isMain ? "text-xl md:text-2xl" : "text-xs"
                             )}>
                                 {video.title}
                             </h2>
-                            <div className="flex items-center text-white/90">
+                            <div className="w-full flex items-start">
                                 <span className={cn(
-                                    "font-sans",
-                                    isMain ? "text-sm" : "text-xs"
+                                    "font-sans text-white/90",
+                                    isMain ? "text-[0.7rem]" : "text-[0.6rem]"
                                 )}>
                                     {video.source}
-                                </span>
-                                <span className="mx-2 text-white/60">•</span>
-                                <span className={cn(
-                                    "font-sans text-white/60",
-                                    isMain ? "text-sm" : "text-xs"
-                                )}>
-                                    4:23
                                 </span>
                             </div>
                         </div>
