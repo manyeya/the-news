@@ -7,6 +7,7 @@ import { SectionHeading } from "./ui/section-heading"
 import { MoveRight } from "lucide-react"
 import { useTopHeadlines } from "@/lib/services/news/hooks/useNews"
 import { Skeleton } from "./ui/skeleton"
+import Title from "./ui/title"
 
 export default function QuickBites() {
   const { data, isLoading, isError } = useTopHeadlines({ pageSize: 5 ,country: "us", category: "Business" }) 
@@ -93,10 +94,8 @@ export default function QuickBites() {
             transition={{ duration: 0.3 }}
             className="space-y-4 mt-4 px-4 h-[350px] overflow-auto custom-scrollbar"
           >
-            <h3 className="text-xl font-serif">{articles[currentIndex].title}</h3>
-            <p className="text-gray-600 leading-relaxed text-justify font-sans">
-              {articles[currentIndex].content}
-            </p>
+            <Title size={'sm'} className="text-brand-dark dark:text-brand-light hover:no-underline hover:cursor-default font-serif font-bold " text={articles[currentIndex].title} />
+            <p className="font-sans text-muted">{articles[currentIndex].content}</p>
           </motion.div>
         </AnimatePresence>
 
@@ -111,7 +110,7 @@ export default function QuickBites() {
         </div>
       </div>
       <div className=" mt-6 w-full bg-background">
-        <h1 className="text-brand-blue font-serif text-base font-bold">Get the Quick Bites delivered to your inbox daily</h1>
+        <h1 className="text-brand-blue font-serif text-base font-bold my-4">Get the Quick Bites delivered to your inbox daily</h1>
         <div className="flex w-full">
           <input type="text" placeholder="Enter your email" className="w-full rounded-none border-b border-brand-blue bg-background outline-none  px-2 py-1" />
           <Button className="bg-brand-blue hover:bg-brand-blue/60 rounded-none text-white ">Subscribe</Button>

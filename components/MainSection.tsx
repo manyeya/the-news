@@ -22,7 +22,7 @@ export default function MainSection() {
   return (
     <div>
       <SectionHeading title="Just In" />
-      <div className="mt-4">
+      <div className="mt-4 ">
         <FeaturedCard
           size="large"
           title={clean(mainArticle.title)}

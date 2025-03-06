@@ -53,17 +53,16 @@ export default function ArticlePreviewSection({ category = "General", title, sec
       <div className={cn("w-full flex flex-col", className)}>
         <div className="mb-6">
           {showSectionHeading && (
-            <div className="border-b border-gray-200">
               <SectionHeading 
                 title={title.toUpperCase()} 
                 variant={sectionVariant || "yellow"} 
               />
-            </div>
+  
           )}
         </div>
-        <div className="bg-red-50 p-6">
+        <div className=" p-6">
           <div className="text-red-800 text-center">
-            <p className="font-serif text-lg">Unable to load top stories</p>
+            <p className="font-serif text-lg">Unable to load {title}</p>
             <p className="font-sans text-sm mt-2">Please check your internet connection and try again</p>
           </div>
         </div>

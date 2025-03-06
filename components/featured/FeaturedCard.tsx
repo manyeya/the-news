@@ -39,7 +39,7 @@ const FeaturedCard: FC<FeaturedCardProps> = ({
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent h-1/3" />
           )}
         </div>
-        <div className="space-y-3">
+        <div className="space-y-3 px-4 md:px-0">
           <Title 
             text={title}
             size={size === 'small' ? 'sm' : size === 'large' ? 'lg' : 'default'}
