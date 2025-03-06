@@ -10,13 +10,13 @@ export default function MainSection() {
   const { data, isLoading, isError } = useSearchNews({
     query: "news",
     sortBy: "publishedAt",
-    pageSize: 1
+    pageSize: 3
   })
 
   if (isLoading) return <FeaturedCardSkeleton />
   if (isError) return null
 
-  const mainArticle = data?.articles[0]
+  const mainArticle = data?.articles.find(article => article.urlToImage)
   if (!mainArticle) return null
 
   return (
@@ -27,7 +27,7 @@ export default function MainSection() {
           size="large"
           title={clean(mainArticle.title)}
           description={mainArticle.description}
-          imageUrl={mainArticle.urlToImage || "/zero.png"}
+          imageUrl={mainArticle.urlToImage}
           link={generateArticleUrl(mainArticle, "General")}
         />
       </div>
