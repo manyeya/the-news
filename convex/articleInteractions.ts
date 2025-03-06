@@ -5,7 +5,25 @@ import { paginationOptsValidator } from "convex/server";
 // ===== ARTICLE MAPPING =====
 
 /**
- * Get or create article mapping in Convex
+ * Get article ID by slug (public)
+ */
+export const getArticleIdBySlug = query({
+  args: {
+    slug: v.string(),
+  },
+  returns: v.union(v.id("articles"), v.null()),
+  handler: async (ctx, args) => {
+    const article = await ctx.db
+      .query("articles")
+      .withIndex("by_article_slug", (q) => q.eq("slug", args.slug))
+      .unique();
+    
+    return article?._id ?? null;
+  },
+});
+
+/**
+ * Create or update article (requires auth)
  */
 export const getOrCreateArticle = mutation({
   args: {

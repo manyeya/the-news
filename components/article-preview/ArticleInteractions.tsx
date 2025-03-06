@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useUser } from "@clerk/nextjs";
 import { useArticleInteractions } from "../../lib/services/news/hooks/useArticleInteractions";
 import { Id } from "../../convex/_generated/dataModel";
 import { Button } from "../ui/button";
@@ -14,6 +15,7 @@ export function ArticleInteractions({
 }: ArticleInteractionsProps) {
     const [showComments, setShowComments] = useState(false);
     const [showShareOptions, setShowShareOptions] = useState(false);
+    const { isSignedIn } = useUser();
 
     const {
         isLiked,
@@ -35,62 +37,62 @@ export function ArticleInteractions({
     return (
         <div className="mt-8 border-t pt-6">
             <div className="flex items-center justify-between mb-6">
-                <div className="flex space-x-4">
-                    {/* Like Button */}
+                <div className="flex space-x-6">
                     <Button
                         variant="ghost"
                         size="sm"
                         className="flex items-center gap-2"
-                        onClick={handleToggleLike}
+                        onClick={isSignedIn ? handleToggleLike : () => window.location.href = "/sign-in"}
+                        title={isSignedIn ? "Like this article" : "Sign in to like"}
                     >
-                        <Heart className={`h-5 w-5 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
-                        <span>{likesCount ?? 0}</span>
+                        <Heart className={`h-5 w-5 ${isSignedIn && isLiked ? 'fill-red-500 text-red-500' : 'text-gray-500'}`} />
+                        <span className="text-gray-600 dark:text-gray-400">{likesCount ?? 0}</span>
                     </Button>
 
-                    {/* Comment Button */}
                     <Button
                         variant="ghost"
                         size="sm"
                         className="flex items-center gap-2"
                         onClick={() => setShowComments(!showComments)}
+                        title="View comments"
                     >
-                        <MessageCircle className="h-5 w-5" />
-                        <span>{comments.length}</span>
+                        <MessageCircle className="h-5 w-5 text-gray-500" />
+                        <span className="text-gray-600 dark:text-gray-400">{comments.length}</span>
                     </Button>
 
-                    {/* Share Button */}
                     <div className="relative">
                         <Button
                             variant="ghost"
                             size="sm"
                             className="flex items-center gap-2"
-                            onClick={() => setShowShareOptions(!showShareOptions)}
+                            onClick={isSignedIn ? () => setShowShareOptions(!showShareOptions) : () => window.location.href = "/sign-in"}
+                            title={isSignedIn ? "Share this article" : "Sign in to share"}
                         >
-                            <Share2 className="h-5 w-5" />
-                            <span>{sharesCount?.total ?? 0}</span>
+                            <Share2 className="h-5 w-5 text-gray-500" />
+                            <span className="text-gray-600 dark:text-gray-400">{sharesCount?.total ?? 0}</span>
                         </Button>
 
                         {/* Share Options Dropdown */}
-                        {showShareOptions && (
-                            <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10">
-                                <div className="py-1" role="menu">
-                                    {["twitter", "facebook", "linkedin", "email", "link"].map((platform) => (
-                                        <button
-                                            key={platform}
-                                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                                            onClick={() => {
-                                                handleShare(platform);
-                                                setShowShareOptions(false);
-                                            }}
-                                        >
-                                            Share on {platform.charAt(0).toUpperCase() + platform.slice(1)}
-                                        </button>
-                                    ))}
+                        {isSignedIn && showShareOptions && (
+                                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10">
+                                    <div className="py-1" role="menu">
+                                        {["twitter", "facebook", "linkedin", "email", "link"].map((platform) => (
+                                            <button
+                                                key={platform}
+                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                onClick={() => {
+                                                    handleShare(platform);
+                                                    setShowShareOptions(false);
+                                                }}
+                                            >
+                                                Share on {platform.charAt(0).toUpperCase() + platform.slice(1)}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
-                </div>
             </div>
 
             {/* Comments Section */}
@@ -98,26 +100,38 @@ export function ArticleInteractions({
                 <div className="mt-4">
                     <h3 className="text-lg font-semibold mb-4">Comments</h3>
 
-                    {/* Add Comment */}
-                    <div className="mb-6">
-                        <Textarea
-                            placeholder="Add a comment..."
-                            value={commentContent}
-                            onChange={(e) => setCommentContent(e.target.value)}
-                            className="w-full mb-2"
-                            rows={3}
-                        />
-                        <div className="flex justify-end">
+                    {/* Add Comment - Only shown when logged in */}
+                    {isSignedIn ? (
+                        <div className="mb-6">
+                            <Textarea
+                                placeholder="Add a comment..."
+                                value={commentContent}
+                                onChange={(e) => setCommentContent(e.target.value)}
+                                className="w-full mb-2"
+                                rows={3}
+                            />
+                            <div className="flex justify-end">
+                                <Button
+                                    size="sm"
+                                    onClick={() => handleAddComment(commentContent)}
+                                    disabled={!commentContent.trim()}
+                                    className="flex items-center gap-2"
+                                >
+                                    <Send className="h-4 w-4" /> Post Comment
+                                </Button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="mb-6">
                             <Button
-                                size="sm"
-                                onClick={() => handleAddComment(commentContent)}
-                                disabled={!commentContent.trim()}
-                                className="flex items-center gap-2"
+                                className="w-full"
+                                variant="outline"
+                                onClick={() => window.location.href = "/sign-in"}
                             >
-                                <Send className="h-4 w-4" /> Post Comment
+                                Sign in to join the discussion
                             </Button>
                         </div>
-                    </div>
+                    )}
 
                     {/* Comments List */}
                     <div className="space-y-4">
@@ -183,8 +197,21 @@ function CommentItem({
     const [showReplyForm, setShowReplyForm] = useState(false);
     const [replyContent, setReplyContent] = useState("");
     const [showReplies, setShowReplies] = useState(false);
+    const { isSignedIn } = useUser();
 
-    const replies = getCommentReplies({ commentId: comment._id });
+    const [replies, setReplies] = useState<Array<{
+        _id: Id<"comments">;
+        userId: string;
+        userName: string;
+        content: string;
+        timestamp: number;
+        articleId: Id<"articles">;
+        parentCommentId?: Id<"comments">;
+    }>>([]);
+
+    useEffect(() => {
+        setReplies(getCommentReplies({ commentId: comment._id }));
+    }, [comment._id, getCommentReplies]);
 
     const { handleAddComment } = useArticleInteractions({
         articleId,
@@ -216,7 +243,8 @@ function CommentItem({
             <div className="mt-2 flex space-x-4">
                 <button
                     className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-                    onClick={() => setShowReplyForm(!showReplyForm)}
+                    onClick={isSignedIn ? () => setShowReplyForm(!showReplyForm) : () => window.location.href = "/sign-in"}
+                    title={isSignedIn ? "Reply to this comment" : "Sign in to reply"}
                 >
                     Reply
                 </button>
