@@ -29,9 +29,9 @@ export function SearchDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="flex items-center text-gray-600">
+        <button className="flex items-center hover:text-brand-blue  space-x-2">
           <Search className="w-5 h-5 sm:mr-1" />
-          <span className="hidden sm:inline">SEARCH</span>
+          <span className="hidden sm:inline">Search</span>
         </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[640px] max-h-[80vh] overflow-y-auto rounded-none border-[3px]">
