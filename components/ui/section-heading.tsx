@@ -7,9 +7,9 @@ const sectionHeadingVariants = cva(
   {
     variants: {
       variant: {
-        yellow: "bg-brand-yellow",
-        gray: "bg-brand-light",
-        blue: "bg-brand-blue",
+        yellow: "bg-brand-yellow text-brand-dark",
+        gray: "bg-brand-light text-brand-dark",
+        blue: "bg-brand-blue text-brand-dark",
       }
     },
     defaultVariants: {
