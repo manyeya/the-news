@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useOfflineSupport } from '@/services/offline/hooks/useOfflineSupport';
+import { useOfflineSupport } from '@/lib/services/offline/hooks/useOfflineSupport';
 
 export function OfflineIndicator() {
   const router = useRouter();
