@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { Article } from "@/lib/services/news/types"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -31,4 +32,29 @@ export function getRandomInt(min: number, max: number): number {
     throw new Error("Min should not be greater than Max");
   }
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+
+/**
+ * Generates a URL-friendly slug and query parameters for an article
+ * @param article - The article object
+ * @param category - The news category
+ * @returns The complete URL string for the article
+ */
+export function generateArticleUrl(article: Article, category: string): string {
+  const slug = article.title.toLowerCase().replace(/\s+/g, '-')
+  
+  const queryParams = new URLSearchParams({
+    title: article.title,
+    description: article.description || '',
+    imageUrl: article.urlToImage || '',
+    content: article.content || '',
+    author: article.author || '',
+    publishedAt: article.publishedAt,
+    sourceName: article.source.name,
+    category: category
+  })
+
+  return `/article/${encodeURIComponent(slug)}?${queryParams.toString()}`
 }
