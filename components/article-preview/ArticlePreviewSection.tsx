@@ -58,9 +58,11 @@ export default function ArticlePreviewSection({ category = "General", title, sec
       {showSectionHeading && <div className="sticky top-0 z-10 border-b">
         <SectionHeading title={title} variant={sectionVariant || "yellow"} />
       </div>}
-      <div className="space-y-4 h-full overflow-y-auto custom-scrollbar pt-4">
+      <div className="space-y-4 h-full overflow-y-auto custom-scrollbar pt-4 snap-y snap-proximity">
         {data?.articles?.map((story, index) => (
-          <ArticlePreviewCard showImage={(index + 1) % 2 === 0} description={story.description} imageUrl={story.urlToImage} variant={cardVariant || "text-only"} key={index} title={clean(story.title)} href={story.url} underLine={index < data.articles.length - 1} />
+          <div className="snap-start" key={index}>
+            <ArticlePreviewCard showImage={(index + 1) % 2 === 0} description={story.description} imageUrl={story.urlToImage} variant={cardVariant || "text-only"} title={clean(story.title)} href={story.url} underLine={index < data.articles.length - 1} />
+          </div>
         ))}
       </div>
     </div>
