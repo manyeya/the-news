@@ -3,7 +3,7 @@
 import FeaturedCard from "./FeaturedCard";
 import { useSearchNews } from "@/lib/services/news/hooks/useNews";
 import { FeaturedCardSkeleton } from "./FeaturedCardSkeleton";
-import Marquee from "../Marquee";
+import Marquee from "./Marquee";
 import { SectionHeading } from "../ui/section-heading";
 import { generateArticleUrl } from "@/lib/utils";
 

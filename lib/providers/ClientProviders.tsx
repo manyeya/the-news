@@ -1,12 +1,13 @@
 'use client';
 
-import ConvexClientProvider from "@/app/providers/ConvexClientProvider";
+
 import { ClerkProvider } from "@clerk/nextjs";
 import QueryProvider from "./QueryProvider";
 import { OfflineIndicator } from "@/components/OfflineIndicator";
 import dynamic from 'next/dynamic';
 import { VideoProvider } from "@/components/video/Player/VideoContext";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import ConvexClientProvider from "./ConvexClientProvider";
 
 const pubKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
