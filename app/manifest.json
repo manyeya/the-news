@@ -113,15 +113,6 @@
       "description": "Get in touch with us"
     }
   ],
-  "share_target": {
-    "action": "/share",
-    "method": "GET",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  },
   "protocol_handlers": [
     {
       "protocol": "web+news",
