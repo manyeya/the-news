@@ -32,6 +32,7 @@ export async function getTopHeadlines(params?: TopHeadlinesParams): Promise<News
 
 export async function searchNews(params: SearchNewsParams): Promise<NewsResponse> {
   const searchParams = new URLSearchParams();
+  searchParams.append('language', 'en'); // Default to English
   searchParams.append('q', params.query);
   if (params.from) searchParams.append('from', params.from);
   if (params.to) searchParams.append('to', params.to);
