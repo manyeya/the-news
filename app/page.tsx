@@ -62,11 +62,18 @@ export default function Home() {
               cardVariant="full"
             />
           </div>
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 flex flex-col gap-8">
             <ArticlePreviewSection
               pageSize={10}
               title="Technology"
               category="Technology"
+              sectionVariant="yellow"
+              cardVariant="text-only"
+            />
+            <ArticlePreviewSection
+              pageSize={5}
+              title="Health"
+              category="Health"
               sectionVariant="yellow"
               cardVariant="text-only"
             />

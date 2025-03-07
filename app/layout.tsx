@@ -4,6 +4,7 @@ import "./globals.css";
 import ClientProviders from "./providers/ClientProviders";
 import NewsHeader from "@/components/NewsHeader";
 import Footer from "@/components/Footer";
+import { ToasterProvider } from "./providers/ToasterProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -76,8 +77,9 @@ export default function RootLayout({
           {children}
 
           <Footer />
-          
+
           <div id="offline-indicator" />
+          <ToasterProvider />
         </ClientProviders>
       </body>
     </html>

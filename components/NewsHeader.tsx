@@ -48,8 +48,12 @@ export default function NewsHeader() {
           </div>
           
           <div className="flex items-center gap-4">
-      
             <SignedIn>
+              <Link href="/liked" className="hover:text-brand-blue transition-colors">
+                <button className="text-base font-medium">
+                  Liked
+                </button>
+              </Link>
               <UserButton afterSwitchSessionUrl="/" />
             </SignedIn>
             <SignedOut>
