@@ -22,13 +22,13 @@ export default function ContactPage() {
               </a>
             </p>
             <p>
-              <strong>Phone:</strong> +1 (555) 123-4567
+              <strong>Phone:</strong> +27 (63) 788-0666
             </p>
             <p>
               <strong>Address:</strong><br />
-              123 News Street<br />
-              New York, NY 10001<br />
-              United States
+              72 Mamba Street<br />
+              Pretoria, Centurion<br />
+              South Africa
             </p>
           </div>
         </div>
