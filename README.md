@@ -15,7 +15,9 @@ A modern, feature-rich news application built with Next.js, React, and Convex th
 - **Featured Articles** 🌟: Highlighted important stories at the top
 - **Category Navigation** 🗂️: Browse news by different categories
 - **Quick Bites** ⚡: Short, digestible news summaries
-- **Video News** 🎥: Dedicated section for video content
+- **Video News** 🎥: 
+  - Dedicated section for video content
+  - RSS feed integration for XML video sources
 - **Article Grid** 📑: Clean, organized presentation of articles
 
 ### 💫 Interactive Features
