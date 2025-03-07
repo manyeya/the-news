@@ -269,6 +269,55 @@ export const getCommentReplies = query({
   },
 });
 
+// ===== LIKED ARTICLES =====
+
+/**
+ * Get all articles liked by the current user
+ */
+export const getLikedArticles = query({
+  args: {},
+  returns: v.array(
+    v.object({
+      _id: v.id("articles"),
+      title: v.string(),
+      slug: v.string(),
+      imageUrl: v.optional(v.string()),
+      publishedDate: v.number(),
+    })
+  ),
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthenticated");
+    }
+    const userId = identity.subject;
+
+    // Get all likes by the user
+    const likes = await ctx.db
+      .query("likes")
+      .filter((q) => q.eq(q.field("userId"), userId))
+      .collect();
+
+    // Get the articles for those likes
+    const articles = await Promise.all(
+      likes.map(async (like) => {
+        const article = await ctx.db.get(like.articleId);
+        if (!article) return null;
+        return {
+          _id: article._id,
+          title: article.title,
+          slug: article.slug,
+          imageUrl: article.imageUrl,
+          publishedDate: article.publishedDate,
+        };
+      })
+    );
+
+    // Filter out any null values and return the articles
+    return articles.filter((article): article is NonNullable<typeof article> => article !== null);
+  },
+});
+
 // ===== SHARES =====
 
 /**
