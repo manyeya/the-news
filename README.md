@@ -1,5 +1,10 @@
 # The News 📰
 
+<div align="center">
+  <img src="public/The News - light.jpeg" alt="The News - Light Mode" width="400" style="margin-right: 20px"/>
+  <img src="public/The News - dark.jpeg" alt="The News - Dark Mode" width="400"/>
+</div>
+
 A modern, feature-rich news application built with Next.js, React, and Convex that delivers a seamless news reading experience.
 
 ## ✨ Features
