@@ -67,18 +67,33 @@
   ],
   "screenshots": [
     {
-      "src": "/1.png",
+      "src": "screenshots/desktop-dark.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
       "label": "App Homepage"
     },
     {
-      "src": "/0.png",
+      "src": "screenshots/desktop-light.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Article View"
+    }
+    ,
+    {
+      "src": "screenshots/mobile-dark.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile Homepage"
+    },
+    {
+      "src": "screenshots/mobile-light.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile Article View"
     }
   ],
   "shortcuts": [
