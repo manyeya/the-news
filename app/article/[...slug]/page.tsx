@@ -1,10 +1,12 @@
-import { use } from "react";
+"use client";
+
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { SaveOfflineButton } from "@/components/SaveOfflineButton";
 import { NewsCategory } from "@/lib/services/news/types";
 import { ClientArticle } from "./ClientArticle";
+import { useSearchParams } from "next/navigation";
 
 const categoryToEnum = (category: string): keyof typeof NewsCategory => {
   const formattedCategory = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
@@ -14,33 +16,10 @@ const categoryToEnum = (category: string): keyof typeof NewsCategory => {
   return "General";
 };
 
-interface PageProps {
-  searchParams: {
-    title: string
-    description: string
-    imageUrl: string
-    content: string
-    author: string
-    publishedAt: string
-    sourceName: string
-    category: string
-  }
-}
+export default function ArticlePage() {
 
-export default function ArticlePage({ searchParams }: PageProps) {
-  // Use searchParams with React.use to properly handle server-side data
-  const params = use(Promise.resolve(searchParams));
-  const {
-    title,
-    description,
-    imageUrl,
-    content,
-    author,
-    publishedAt,
-    sourceName,
-    category,
-  } = params;
-
+  const searchParams = useSearchParams()
+  const { title, description, imageUrl, content, author, sourceName, category,publishedAt } = Object.fromEntries(searchParams);
   const date = new Date(publishedAt);
   const timeAgo = formatDistanceToNow(date, { addSuffix: true });
   

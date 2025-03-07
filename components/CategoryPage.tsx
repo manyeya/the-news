@@ -5,13 +5,14 @@ import { NewsCategory } from "@/lib/services/news/types"
 import ArticleCard from "@/components/article-preview/ArticlePreviewCard"
 import { motion } from "framer-motion"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useParams } from "next/navigation"
 
-interface CategoryPageProps {
-  category: keyof typeof NewsCategory
-}
 
-export default function CategoryPage({ category }: CategoryPageProps) {
-  const { data, isLoading, isError } = useTopHeadlines({ category })
+
+export default function CategoryPage() {
+  const params = useParams()
+  const category = params.category as keyof typeof NewsCategory
+  const { data, isLoading, isError } = useTopHeadlines({ category: category })
 
   if (isError) {
     return (
