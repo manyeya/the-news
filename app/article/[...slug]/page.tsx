@@ -19,10 +19,10 @@ const categoryToEnum = (category: string): keyof typeof NewsCategory => {
 export default function ArticlePage() {
 
   const searchParams = useSearchParams()
-  const { title, description, imageUrl, content, author, sourceName, category,publishedAt } = Object.fromEntries(searchParams);
+  const { title, description, imageUrl, content, author, sourceName, category, publishedAt } = Object.fromEntries(searchParams);
   const date = new Date(publishedAt);
   const timeAgo = formatDistanceToNow(date, { addSuffix: true });
-  
+
   return (
     <div>
       <main className="max-w-screen-xl mx-auto px-4 py-8">
@@ -38,14 +38,14 @@ export default function ArticlePage() {
 
           {/* Article Header */}
           <h1 className="text-4xl font-serif font-bold mb-4">{title}</h1>
-          
+
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center text-sm text-gray-500">
               <span>{author ? `By ${author}` : sourceName}</span>
               <span className="mx-2">•</span>
               <time dateTime={publishedAt}>{timeAgo}</time>
             </div>
-            <SaveOfflineButton 
+            <SaveOfflineButton
               article={{
                 title,
                 description,
@@ -59,7 +59,7 @@ export default function ArticlePage() {
                   name: sourceName
                 },
                 category: categoryToEnum(category)
-              }} 
+              }}
             />
           </div>
 
@@ -82,7 +82,7 @@ export default function ArticlePage() {
             <div className="whitespace-pre-line">{content}</div>
           </div>
 
-          <ClientArticle 
+          <ClientArticle
             title={title}
             content={content}
             author={author}
