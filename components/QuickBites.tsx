@@ -10,9 +10,9 @@ import { Skeleton } from "./ui/skeleton"
 import Title from "./ui/title"
 
 export default function QuickBites() {
-  const { data, isLoading, isError } = useTopHeadlines({ pageSize: 5 ,country: "us", category: "Business" }) 
+  const { data, isLoading, isError } = useTopHeadlines({ pageSize: 5, country: "us", category: "Business" })
   const [currentIndex, setCurrentIndex] = useState(0)
-  
+
   if (isError) {
     return (
       <div className="max-w-2xl mx-auto h-[600px] bg-brand-light dark:bg-brand-dark flex flex-col justify-between items-start">
@@ -95,7 +95,7 @@ export default function QuickBites() {
             className="space-y-4 mt-4 px-4 h-[350px] overflow-auto custom-scrollbar"
           >
             <Title size={'sm'} className="text-brand-dark dark:text-brand-light hover:no-underline hover:cursor-default font-serif font-bold " text={articles[currentIndex].title} />
-            <p className="font-sans text-muted">{articles[currentIndex].content}</p>
+            <p className="font-sans">{articles[currentIndex].content}</p>
           </motion.div>
         </AnimatePresence>
 
@@ -105,7 +105,7 @@ export default function QuickBites() {
             variant={"outline"}
             className="border-none bg-brand-light dark:bg-brand-dark shadow-none text-brand-blue hover:bg-brand-blue/5"
           >
-            Next Article <MoveRight/>
+            Next Article <MoveRight />
           </Button>
         </div>
       </div>

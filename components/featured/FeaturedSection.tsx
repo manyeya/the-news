@@ -12,6 +12,7 @@ export default function FeaturedSection() {
     const { data, isLoading, isError } = useSearchNews({ sortBy:'relevancy',query:"Featured",pageSize: 8 });
     const articles = data?.articles.slice(0, 3) || [];
     const marqueeTitles = data?.articles.slice(3, 8).map((article) => article.title);
+
     if (isLoading) {
         return (
             <div className="max-w-screen-xl mx-auto px-4 py-8">
@@ -19,7 +20,7 @@ export default function FeaturedSection() {
                     <div className="relative border-b pb-3">
                         <div className="flex items-center gap-4">
                             <SectionHeading title="Featured" variant={'yellow'}/>
-                            <div className="flex-1 h-[48px] bg-gray-100 animate-pulse rounded" />
+                            <div className="flex-1 p-4 bg-muted animate-pulse rounded" />
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -49,9 +50,9 @@ export default function FeaturedSection() {
         <div className="space-y-8">
             {/* Header with Marquee */}
             <div className="relative border-b pb-3">
-                <div className="flex items-center gap-4">
+                <div className="flex justify-center">
                     <SectionHeading title="Featured" variant={'yellow'}/>
-                    <div className="flex-1 rounded-sm overflow-hidden">
+                    <div className="flex-1 py-1 overflow-hidden ">
                         <Marquee titles={marqueeTitles!} />
                     </div>
                 </div>

@@ -9,7 +9,7 @@ interface MarqueeProps {
 
 function Marquee({ titles, speed = 20 }: MarqueeProps) {
     return (
-        <div className="overflow-hidden relative flex items-center py-2 bg-[#f7f7f7] border-y border-gray-200">
+        <div className="overflow-hidden relative flex items-center py-2 ">
             <motion.div
                 className="whitespace-nowrap flex items-center space-x-12 px-4 absolute"
                 animate={{

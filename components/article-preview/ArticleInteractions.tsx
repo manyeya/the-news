@@ -5,6 +5,9 @@ import { Id } from "../../convex/_generated/dataModel";
 import { Button } from "../ui/button";
 import { Heart, MessageCircle, Share2, Send, ChevronDown, X } from "lucide-react";
 import { Textarea } from "../ui/textarea";
+import { Authenticated } from "convex/react";
+import { SignInButton, SignedOut } from "@clerk/nextjs";
+import { toast } from "sonner";
 
 interface ArticleInteractionsProps {
     articleId: Id<"articles">;
@@ -20,19 +23,66 @@ export function ArticleInteractions({
     const {
         isLiked,
         likesCount,
-        handleToggleLike,
+        handleToggleLike: handleLike,
         comments,
         commentContent,
         setCommentContent,
-        handleAddComment,
+        handleAddComment: addComment,
         hasMoreComments,
         loadMoreComments,
         getCommentReplies,
         sharesCount,
-        handleShare,
+        handleShare: shareArticle,
     } = useArticleInteractions({
         articleId,
     });
+
+    const handleToggleLike = async () => {
+        if (!isSignedIn) {
+            toast.info('Please login to like this article');
+            return;
+        }
+
+        try {
+            await handleLike();
+            toast.success(isLiked ? "Removed like" : "Added like");
+        } catch (error) {
+            if (error instanceof Error) {
+                error.message = "Failed to add reply";
+            }
+            toast.error("Failed to add reply");
+            toast.error("Failed to update like");
+        }
+    };
+
+    const handleAddComment = async (content: string, parentCommentId?: Id<"comments">) => {
+        if (!content.trim()) return;
+
+        try {
+            await addComment(content, parentCommentId);
+            setCommentContent("");
+            toast.success("Comment added successfully");
+        } catch (error) {
+            if (error instanceof Error) {
+                error.message = "Failed to add reply";
+            }
+            toast.error("Failed to add reply");
+            toast.error("Failed to add comment");
+        }
+    };
+
+    const handleShare = async (platform: string) => {
+        try {
+            await shareArticle(platform);
+            toast.success(`Shared on ${platform}`);
+        } catch (error) {
+            if (error instanceof Error) {
+                error.message = "Failed to add reply";
+            }
+            toast.error("Failed to add reply");
+            toast.error(`Failed to share on ${platform}`);
+        }
+    };
 
     return (
         <div className="mt-8 border-t pt-6">
@@ -42,7 +92,7 @@ export function ArticleInteractions({
                         variant="ghost"
                         size="sm"
                         className="flex items-center gap-2"
-                        onClick={isSignedIn ? handleToggleLike : () => window.location.href = "/sign-in"}
+                        onClick={handleToggleLike}
                         title={isSignedIn ? "Like this article" : "Sign in to like"}
                     >
                         <Heart className={`h-5 w-5 ${isSignedIn && isLiked ? 'fill-red-500 text-red-500' : 'text-gray-500'}`} />
@@ -65,7 +115,7 @@ export function ArticleInteractions({
                             variant="ghost"
                             size="sm"
                             className="flex items-center gap-2"
-                            onClick={isSignedIn ? () => setShowShareOptions(!showShareOptions) : () => window.location.href = "/sign-in"}
+                            onClick={() => isSignedIn ? setShowShareOptions(!showShareOptions) : toast.info('Please login to share this article')}
                             title={isSignedIn ? "Share this article" : "Sign in to share"}
                         >
                             <Share2 className="h-5 w-5 text-gray-500" />
@@ -74,25 +124,25 @@ export function ArticleInteractions({
 
                         {/* Share Options Dropdown */}
                         {isSignedIn && showShareOptions && (
-                                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10">
-                                    <div className="py-1" role="menu">
-                                        {["twitter", "facebook", "linkedin", "email", "link"].map((platform) => (
-                                            <button
-                                                key={platform}
-                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                                                onClick={() => {
-                                                    handleShare(platform);
-                                                    setShowShareOptions(false);
-                                                }}
-                                            >
-                                                Share on {platform.charAt(0).toUpperCase() + platform.slice(1)}
-                                            </button>
-                                        ))}
-                                    </div>
+                            <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10">
+                                <div className="py-1" role="menu">
+                                    {["twitter", "facebook", "linkedin", "email", "link"].map((platform) => (
+                                        <button
+                                            key={platform}
+                                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                            onClick={() => {
+                                                handleShare(platform);
+                                                setShowShareOptions(false);
+                                            }}
+                                        >
+                                            Share on {platform.charAt(0).toUpperCase() + platform.slice(1)}
+                                        </button>
+                                    ))}
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        )}
                     </div>
+                </div>
             </div>
 
             {/* Comments Section */}
@@ -123,13 +173,16 @@ export function ArticleInteractions({
                         </div>
                     ) : (
                         <div className="mb-6">
-                            <Button
-                                className="w-full"
-                                variant="outline"
-                                onClick={() => window.location.href = "/sign-in"}
-                            >
-                                Sign in to join the discussion
-                            </Button>
+                            <SignedOut>
+                                <SignInButton mode="modal">
+                                    <Button
+                                        className="w-full"
+                                        variant="outline"
+                                    >
+                                        Sign in to join the discussion
+                                    </Button>
+                                </SignInButton>
+                            </SignedOut>
                         </div>
                     )}
 
@@ -220,11 +273,18 @@ function CommentItem({
     const handleReply = async () => {
         if (!replyContent.trim()) return;
 
-        await handleAddComment(replyContent, comment._id);
-
-        setReplyContent("");
-        setShowReplyForm(false);
-        setShowReplies(true); // Show replies after adding a new one
+        try {
+            await handleAddComment(replyContent, comment._id);
+            setReplyContent("");
+            setShowReplyForm(false);
+            setShowReplies(true);
+            toast.success("Reply added successfully");
+        } catch (error) {
+            if (error instanceof Error) {
+                error.message = "Failed to add reply";
+            }
+            toast.error("Failed to add reply");
+        }
     };
 
     return (
@@ -243,7 +303,7 @@ function CommentItem({
             <div className="mt-2 flex space-x-4">
                 <button
                     className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-                    onClick={isSignedIn ? () => setShowReplyForm(!showReplyForm) : () => window.location.href = "/sign-in"}
+                    onClick={() => isSignedIn ? setShowReplyForm(!showReplyForm) : window.location.href = "/sign-in"}
                     title={isSignedIn ? "Reply to this comment" : "Sign in to reply"}
                 >
                     Reply
@@ -278,14 +338,16 @@ function CommentItem({
                         >
                             <X className="h-3 w-3" /> Cancel
                         </Button>
-                        <Button
-                            size="sm"
-                            onClick={handleReply}
-                            disabled={!replyContent.trim()}
-                            className="flex items-center gap-1"
-                        >
-                            <Send className="h-3 w-3" /> Reply
-                        </Button>
+                        <Authenticated>
+                            <Button
+                                size="sm"
+                                onClick={handleReply}
+                                disabled={!replyContent.trim()}
+                                className="flex items-center gap-1"
+                            >
+                                <Send className="h-3 w-3" /> Reply
+                            </Button>
+                        </Authenticated>
                     </div>
                 </div>
             )}
