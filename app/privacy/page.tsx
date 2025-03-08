@@ -10,7 +10,7 @@ export default function PrivacyPage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
           <p>
-            The News (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy 
+            The News (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy
             explains how we collect, use, disclose, and safeguard your information when you visit our website.
           </p>
         </section>
@@ -51,8 +51,8 @@ export default function PrivacyPage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Data Protection</h2>
           <p>
-            We implement appropriate technical and organizational security measures to protect your 
-            personal information. However, please note that no method of transmission over the 
+            We implement appropriate technical and organizational security measures to protect your
+            personal information. However, please note that no method of transmission over the
             internet is 100% secure.
           </p>
         </section>
